@@ -1,0 +1,28 @@
+{
+  "repository": "delvisecheverria/relampo-test1",
+  "run_id": 0,
+  "attempt": 0,
+  "nodes": 2,
+  "vus": 1,
+  "scenario": "scenarios/relampopractice.correlated.yaml",
+  "scenario_sha256": "b7b3bbc62b4aca16a743b8bcc1abe825550d2dbe0e953b29e71abbb6b7927465",
+  "source_sha": "",
+  "version": "develop-2026.11.21.2",
+  "language": "en",
+  "timezone": "America/New_York",
+  "duration": "",
+  "formats": {
+    "html": "report.html",
+    "json": "report.json"
+  },
+  "license": {
+    "license_activation_id": "act_852112ab847809cf",
+    "license_authorized_duration": "1h0m0s",
+    "license_authorized_nodes": "unlimited",
+    "license_authorized_vus": "500",
+    "license_id": "lic_6959d0e65b8dafa4",
+    "license_offline_until": "2026-11-28T13:01:41Z",
+    "license_org_id": "org_fe29bd952dc11352",
+    "license_tier": "scale-500"
+  }
+}

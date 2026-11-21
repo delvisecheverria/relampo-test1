@@ -1,53 +1,338 @@
-name: 🌩️ Distributed Relampo Test
-
+name: "\U0001F329️ Distributed Relampo Test"
 on:
-  workflow_dispatch:
-
+    workflow_dispatch:
+permissions:
+    contents: read
+env:
+    RELAMPO_RELEASE_PUBLIC_KEY: FCJilB3d1IwW463JL7l4OIKm7KisfLwT5K/OCUJa9v4=
 jobs:
-  run-nodes:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        node: [1, 2, 3, 4, 5]
+    prepare-context:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        env:
+            GH_TOKEN: ${{ github.token }}
+        outputs:
+            version: ${{ steps.context.outputs.version }}
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - name: Verify cloud publication access before load
+              run: |
+                BRANCH=$(gh api "repos/$GITHUB_REPOSITORY" --jq '.default_branch')
+                if [ "$(gh api "repos/$GITHUB_REPOSITORY/branches/$BRANCH" --jq '.protected')" != false ]; then
+                  echo '::error::Cloud report indexes require direct writes to the default branch. Branch protection blocks this publication mode.'
+                  exit 1
+                fi
+                HEAD_SHA=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/$BRANCH" --jq '.object.sha')
+                TAG="relampo-report-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+                TAG_CREATED=false
+                RELEASE_ID=''
+                cleanup() {
+                  if [ -n "$RELEASE_ID" ]; then gh api --method DELETE "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID"; fi
+                  if [ "$TAG_CREATED" = true ]; then gh api --method DELETE "repos/$GITHUB_REPOSITORY/git/refs/tags/$TAG"; fi
+                }
+                trap cleanup EXIT
+                # Tag creation verifies contents:write without racing default-branch updates.
+                gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" -f ref="refs/tags/$TAG" -f sha="$HEAD_SHA" >/dev/null
+                TAG_CREATED=true
+                gh api --method DELETE "repos/$GITHUB_REPOSITORY/git/refs/tags/$TAG"
+                TAG_CREATED=false
+                RELEASE_ID=$(gh api --method POST "repos/$GITHUB_REPOSITORY/releases" -f tag_name="$TAG" -f target_commitish="$BRANCH" -f name="Relampo publication preflight $GITHUB_RUN_ID" -F draft=true -F prerelease=true -f make_latest=false --jq '.id')
+                gh api --method DELETE "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID"
+                RELEASE_ID=''
+            - name: Capture immutable execution context
+              id: context
+              env:
+                RELAMPO_REPOSITORY: ${{ github.repository }}
+                RELAMPO_RUN_ID: ${{ github.run_id }}
+                RELAMPO_RUN_ATTEMPT: ${{ github.run_attempt }}
+                RELAMPO_SOURCE_SHA: ${{ github.sha }}
+              run: |
+                python3 - <<'PY_CONTEXT'
+                import hashlib, json, os, pathlib, re, urllib.request
+                path = pathlib.Path('.relampo/report-context.json')
+                context = json.loads(path.read_text())
+                version = context['version']
+                worker_version = version
+                if worker_version == 'dev' and not (pathlib.Path(context['scenario']).parent / 'relampo-worker').is_file():
+                    worker_version = urllib.request.urlopen('https://d1esekpdu3hjut.cloudfront.net/develop/relampo/latest.txt').read().decode().strip()
+                if version == 'dev' and not pathlib.Path('.relampo/bin/relampo').is_file():
+                    version = worker_version
+                if any(value != 'dev' and not re.fullmatch(r'(?:v?\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?|develop-\d{4}\.\d{2}\.\d{2}\.\d+)', value) for value in (version, worker_version)):
+                    raise ValueError('invalid generator version')
+                context.update(repository=os.environ['RELAMPO_REPOSITORY'], run_id=int(os.environ['RELAMPO_RUN_ID']), attempt=int(os.environ['RELAMPO_RUN_ATTEMPT']), source_sha=os.environ['RELAMPO_SOURCE_SHA'], version=version)
+                if hashlib.sha256(pathlib.Path(context['scenario']).read_bytes()).hexdigest() != context['scenario_sha256']:
+                    raise ValueError('scenario digest mismatch')
+                path.write_text(json.dumps(context))
+                with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+                    output.write('version=' + worker_version.removeprefix('v') + '\n')
+                PY_CONTEXT
+            - name: Upload execution context
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+              with:
+                name: relampo-context-attempt-${{ github.run_attempt }}
+                path: .relampo/report-context.json
+                include-hidden-files: true
+                retention-days: ${{ vars.RELAMPO_EVIDENCE_RETENTION_DAYS || 7 }}
+    run-nodes:
+        needs: prepare-context
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                node: [1, 2]
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - name: Install relampo-worker
+              run: |
+                verify_release_archive() {
+                  archive_url="$1"
+                  archive_path="$2"
+                  public_key="${RELAMPO_RELEASE_PUBLIC_KEY:-}"; [ -n "$public_key" ] || public_key='FCJilB3d1IwW463JL7l4OIKm7KisfLwT5K/OCUJa9v4='
+                  if [ -z "$public_key" ]; then
+                    echo "Error: trusted release signing public key is not configured." >&2
+                    return 1
+                  fi
+                  openssl_cmd=""
+                  for candidate in "${RELAMPO_OPENSSL:-openssl}" /opt/homebrew/opt/openssl@3/bin/openssl /usr/local/opt/openssl@3/bin/openssl; do
+                    if "$candidate" pkeyutl -help 2>&1 | grep -q -- '-rawin'; then openssl_cmd="$candidate"; break; fi
+                  done
+                  if [ -z "$openssl_cmd" ]; then
+                    echo "Error: OpenSSL with Ed25519 verification is required. Set RELAMPO_OPENSSL to a compatible executable." >&2
+                    return 1
+                  fi
+                  verify_dir="$(mktemp -d)"
+                  # The prefix is the standard Ed25519 SubjectPublicKeyInfo DER header.
+                  { printf '\060\052\060\005\006\003\053\145\160\003\041\000'; printf '%s' "$public_key" | base64 -d; } > "$verify_dir/public.der"
+                  curl -fsSL --max-filesize 1048576 "${archive_url%/*}/checksums.txt" -o "$verify_dir/checksums.txt" || { rm -rf "$verify_dir"; return 1; }
+                  curl -fsSL --max-filesize 1024 "${archive_url%/*}/checksums.txt.sig" -o "$verify_dir/checksums.txt.sig" || { rm -rf "$verify_dir"; return 1; }
+                  if ! "$openssl_cmd" pkeyutl -verify -pubin -keyform DER -inkey "$verify_dir/public.der" -rawin -in "$verify_dir/checksums.txt" -sigfile "$verify_dir/checksums.txt.sig"; then
+                    rm -rf "$verify_dir"
+                    return 1
+                  fi
+                  expected="$(awk -v name="${archive_url##*/}" '$2 == name || $2 == "*" name {print $1}' "$verify_dir/checksums.txt")"
+                  if command -v sha256sum >/dev/null 2>&1; then actual="$(sha256sum "$archive_path" | cut -d ' ' -f 1)"
+                  else actual="$(shasum -a 256 "$archive_path" | cut -d ' ' -f 1)"; fi
+                  rm -rf "$verify_dir"
+                  [ -n "$expected" ] && [ "$actual" = "$expected" ] || { echo "Error: release archive checksum mismatch." >&2; return 1; }
+                }
+                mkdir -p "$HOME/.local/bin"
+                SCENARIO_PATH='scenarios/relampopractice.correlated.yaml'
+                WORKER_OVERRIDE="$(dirname "$SCENARIO_PATH")/relampo-worker"
+                if [ -f "$WORKER_OVERRIDE" ]; then
+                  (cd "$(dirname "$WORKER_OVERRIDE")" && sha256sum -c relampo-worker.sha256)
+                  install -m 0755 "$WORKER_OVERRIDE" "$HOME/.local/bin/relampo-worker"
+                else
+                  RELAMPO_VERSION="${{ needs.prepare-context.outputs.version }}"
+                  WORKER_URL="https://d1esekpdu3hjut.cloudfront.net/develop/relampo/v${RELAMPO_VERSION}/relampo-worker_${RELAMPO_VERSION}_linux_amd64.tar.gz"
+                  curl -fsSL "$WORKER_URL" -o /tmp/relampo-worker.tar.gz
+                  verify_release_archive "$WORKER_URL" /tmp/relampo-worker.tar.gz
+                  tar -xzf /tmp/relampo-worker.tar.gz -C /tmp
+                  install -m 0755 /tmp/relampo-worker "$HOME/.local/bin/relampo-worker"
+                fi
+                "$HOME/.local/bin/relampo-worker" --version
+                echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+            - name: Run worker node
+              env:
+                RELAMPO_NODE: ${{ matrix.node }}
+                PULSE_PPROF: ${{ vars.PULSE_PPROF || '0' }}
+                PULSE_GOROUTINES: ${{ vars.PULSE_GOROUTINES || '0' }}
+                TZ: 'America/New_York'
+                RELAMPO_RUN_AUTHORIZATION: 'eyJhbGciOiJQUzI1NiIsImtpZCI6InJlbGFtcG8tZGV2LWxpY2Vuc2luZy0yMDI2LTExIiwidHlwIjoiSldUIn0.eyJ0eXAiOiJyZWxhbXBvX3J1bl9hdXRob3JpemF0aW9uIiwicnVuX2lkIjoicnVuX2FlMWQ3MmIyYzhhZGEyNzgiLCJvcmdfaWQiOiJvcmdfZmUyOWJkOTUyZGMxMTM1MiIsImFjdGl2YXRpb25faWQiOiJhY3RfODUyMTEyYWI4NDc4MDljZiIsInNjZW5hcmlvX3NoYTI1NiI6ImI3YjNiYmM2MmI0YWNhMTZhNzQzYjhiY2MxYWJlODI1NTUwZDJkYmUwZTk1M2IyOWU3MWFiYmI2Yjc5Mjc0NjUiLCJncmFudGVkX3Z1cyI6MSwiZ3JhbnRlZF9kdXJhdGlvbl9zZWNvbmRzIjo2MCwiZ3JhbnRlZF9ub2RlcyI6MiwiZXhwIjoxNzk1MjY5NzUwLCJraWQiOiJyZWxhbXBvLWRldi1saWNlbnNpbmctMjAyNi0xMSJ9.LBnSCsDWbi7h6GXCk-SlWGQY7bKh7zZ39uB_TXkxLW0_YPaH06xNIkFkCk18e2zk8x-ZrrjjEzV-zvmppVxGAmWy7fVHfuPNh3RuxE_9qRk2ffWUgWAEJ5S2A9Zfp5u5vfQMwDIKzZ1SMWk_qESnWyvB0CWQ-FVny6cJ1SiqSbG8oPBTR0Lg_Pxsp9rSKp7-wc_JGjXfm71nAwrNWzVQu66c6GnKIRkQxzdUg-ezFzHgua62PPIFT1FqVIBpqHo_jRf6Jryd04gmmR2c-XAkDoEGo8_SOh_SJ0vHmUf62whKSzIqkfLPpsdtWdKLq6Ok_WUaFOWZEtQDz0l7BSBU5A'
+                RELAMPO_WORKER_LOG_MODE: table
+                RELAMPO_WORKER_SNAPSHOT_SECONDS: '0'
+                RELAMPO_WORKER_PROGRESS_SECONDS: '1'
+                GH_TOKEN: ${{ github.token }}
+                RELAMPO_STUDIO_JOB: ${{ github.job }}-node-${{ matrix.node }}
+                RELAMPO_STUDIO_INTERVAL: "8"
+              run: |
+                python3 - <<'PY_STUDIO_LIVE' >"$RUNNER_TEMP/relampo-studio-live.log" 2>&1 &
+                # Published only for Studio runs. No request bodies, credentials, or datasets.
+                import base64, gzip, json, math, os, pathlib, time, urllib.request
+                base = 'https://api.github.com/repos/' + os.environ['GITHUB_REPOSITORY'] + '/check-runs'
+                identity = {"run_id": int(os.environ['GITHUB_RUN_ID']), "attempt": int(os.environ['GITHUB_RUN_ATTEMPT']), "source_sha": os.environ['GITHUB_SHA'], "job": os.environ['RELAMPO_STUDIO_JOB']}
+                headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2026-03-10', 'Content-Type': 'application/json'}
+                stop = pathlib.Path(os.environ['RUNNER_TEMP']) / ('relampo-studio-stop-' + identity['job'])
+                check_id = None
+                last = None
+                interval = int(os.environ['RELAMPO_STUDIO_INTERVAL'])
+                history_points = max(32, min(128, interval * 2 + 4))
+                history_bytes = 4 * 1024 * 1024
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+                def resource_measurements(path, node_id):
+                    try:
+                        peaks_path = path.with_name(path.name.removesuffix('.progress.json') + '.peaks.json')
+                        if peaks_path.is_symlink() or not peaks_path.exists() or peaks_path.stat().st_size > 65536:
+                            return {}
+                        peaks = json.loads(peaks_path.read_text())
+                        if peaks.get('node_id') != node_id:
+                            return {}
+                        measurements = peaks.get('measurements') or {}
+                        return {key: value for key, value in measurements.items() if key in ('rss_peak_mib', 'cpu_percent_peak') and isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value) and value >= 0}
+                    except (ValueError, OSError, AttributeError, TypeError):
+                        return {}
 
-      - name: Setup latest Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: stable
-          check-latest: true
+                def publish(final):
+                    global check_id, last
+                    samples = {}
+                    history = {}
+                    for path in pathlib.Path('.').glob('**/*.progress.json'):
+                        if path.is_symlink() or path.stat().st_size > 1024 * 1024:
+                            continue
+                        try:
+                            sample = json.loads(path.read_text())
+                            if sample.get('schema_version') != 1 or not isinstance(sample.get('node_id'), int):
+                                continue
+                            # The worker already writes a small typed resource file at completion.
+                            measured = resource_measurements(path, sample['node_id'])
+                            if measured:
+                                sample['resource_measurements'] = measured
+                            # A copy in root/results has the same basename as the original.
+                            previous = samples.get(path.name)
+                            if previous and previous.get('sequence', 0) > sample.get('sequence', 0):
+                                continue
+                            if previous and 'resource_measurements' not in sample and 'resource_measurements' in previous:
+                                sample['resource_measurements'] = previous['resource_measurements']
+                            samples[path.name] = sample
+                            # Read a bounded tail of the worker's typed progress journal. Keep
+                            # intermediate measurements without publishing request/event data.
+                            journal = path.with_suffix('.jsonl')
+                            if journal.exists() and not journal.is_symlink():
+                                with journal.open('rb') as source:
+                                    size = source.seek(0, 2)
+                                    source.seek(max(0, size - 2097152))
+                                    tail = source.read(2097152).splitlines()
+                                if size > 2097152:
+                                    tail = tail[1:]
+                                points = []
+                                for line in tail[-history_points:]:
+                                    try:
+                                        point = json.loads(line)
+                                        if point.get('schema_version') == 1 and point.get('node_id') == sample['node_id'] and point.get('sequence', 0) <= sample.get('sequence', 0):
+                                            points.append(point)
+                                    except (ValueError, TypeError, AttributeError):
+                                        continue
+                                if points:
+                                    history[path.name] = points[-history_points:]
+                        except (ValueError, OSError):
+                            continue
+                    # Startup has no metrics yet. Recheck local files promptly without spending
+                    # provider API calls on empty checks or delaying the first real sample.
+                    if not samples and not final:
+                        return False
+                    payload = dict(identity, samples=samples, history=history)
+                    def encode():
+                        payload.pop('history_gzip', None)
+                        payload['history'] = history
+                        text = json.dumps(payload, separators=(',', ':'))
+                        if len(text.encode()) > 60000 and any(history.values()):
+                            raw = json.dumps(history, separators=(',', ':')).encode()
+                            if len(raw) <= history_bytes:
+                                payload.pop('history')
+                                payload['history_gzip'] = base64.b64encode(gzip.compress(raw, mtime=0)).decode('ascii')
+                                text = json.dumps(payload, separators=(',', ':'))
+                        return text
+                    text = encode()
+                    # Compress repeated request metrics before trimming any confirmed samples.
+                    # Both compressed provider output and its decoded history remain bounded.
+                    while len(text.encode()) > 60000 and any(history.values()):
+                        for name in history:
+                            if history[name]:
+                                history[name].pop(0)
+                        text = encode()
+                    # GitHub limits check output to 64 KiB; keep global node metrics available.
+                    if len(text.encode()) > 60000:
+                        for sample in samples.values():
+                            sample.pop('groups', None)
+                        payload['groups_truncated'] = True
+                        text = json.dumps(payload, separators=(',', ':'))
+                    if len(text.encode()) > 60000:
+                        raise ValueError('progress payload exceeds provider limit')
+                    if text == last and not final:
+                        return True
+                    body = {'status': 'completed' if final else 'in_progress', 'output': {'title': 'Relampo live metrics', 'summary': 'Aggregated worker progress; final reports are authoritative.', 'text': text}}
+                    if final:
+                        body['conclusion'] = 'neutral'
+                    if check_id is None:
+                        body.update(name='relampo-studio-' + str(identity['run_id']) + '-' + str(identity['attempt']) + '-' + identity['job'], head_sha=identity['source_sha'], external_id=str(identity['run_id']) + ':' + str(identity['attempt']) + ':' + identity['job'])
+                    req = urllib.request.Request(base + ('/' + str(check_id) if check_id else ''), data=json.dumps(body).encode(), headers=headers, method='PATCH' if check_id else 'POST')
+                    # The fixed API URL never forwards the token to a caller-supplied endpoint.
+                    with urllib.request.urlopen(req, timeout=10) as response:
+                        result = json.load(response)
+                    check_id = result['id']
+                    last = text
+                    return True
 
-      - name: Install Relampo CLI
-        run: |
-          curl -fsSL https://dl.relampo.com/install.sh | bash
+                final_failures = 0
+                while True:
+                    final = stop.exists()
+                    have_sample = True
+                    try:
+                        have_sample = publish(final)
+                    except Exception as error:
+                        code = getattr(error, 'code', None)
+                        detail = 'HTTP ' + str(code) if isinstance(code, int) else type(error).__name__
+                        print('Relampo live metrics temporarily unavailable (' + detail + ')', flush=True)
+                        # A new check may briefly return 404 on PATCH. Keep the same check and
+                        # retry its final snapshot; never create duplicate execution identities.
+                        if final and final_failures < 2:
+                            final_failures += 1
+                            time.sleep(final_failures)
+                            continue
+                    if final:
+                        break
+                    for _ in range(interval if have_sample else 1):
+                        if stop.exists():
+                            break
+                        time.sleep(1)
 
-      - name: Install relampo-worker
-        run: |
-          RELAMPO_VERSION="$(curl -fsSL https://dl.relampo.com/relampo/latest.txt | tr -d '[:space:]')"
-          WORKER_URL="https://dl.relampo.com/relampo/v${RELAMPO_VERSION}/relampo-worker_${RELAMPO_VERSION}_linux_amd64.tar.gz"
-          curl -fsSL "$WORKER_URL" -o /tmp/relampo-worker.tar.gz
-          tar -xzf /tmp/relampo-worker.tar.gz -C /tmp
-          mkdir -p "$HOME/.local/bin"
-          install -m 0755 /tmp/relampo-worker "$HOME/.local/bin/relampo-worker"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-
-      - name: Run worker node
-        run: |
-          echo "🏁 Starting node ${{ matrix.node }} of 5"
-          SCENARIO_PATH='scenarios/delvis.yaml'
-          VUS_FLAG=""
-          if [ -n "2" ]; then
-            VUS_FLAG="--vus 2"
-          fi
-          relampo-worker --yaml "$SCENARIO_PATH" --node ${{ matrix.node }} --total 5 $VUS_FLAG
-
-      - name: Upload logs/artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: pulse-results-node-${{ matrix.node }}
-          path: results/
+                PY_STUDIO_LIVE
+                STUDIO_LIVE_PID=$!
+                trap 'touch "$RUNNER_TEMP/relampo-studio-stop-$RELAMPO_STUDIO_JOB"; wait "$STUDIO_LIVE_PID" || true; cat "$RUNNER_TEMP/relampo-studio-live.log"' EXIT
+                echo "Starting node $RELAMPO_NODE of 2"
+                SCENARIO_PATH='scenarios/relampopractice.correlated.yaml'
+                SCENARIO_DIR="$(dirname "$SCENARIO_PATH")"
+                SCENARIO_FILE="$(basename "$SCENARIO_PATH")"
+                VUS_ARGS=()
+                if [ -n "" ]; then
+                  VUS_ARGS=(--vus )
+                fi
+                mkdir -p results
+                WORKER_STATUS=0
+                (
+                  cd "$SCENARIO_DIR"
+                  mkdir -p results
+                  set +e
+                  set -o pipefail
+                  relampo-worker --yaml "$SCENARIO_FILE" --node "$RELAMPO_NODE" --total 2 "${VUS_ARGS[@]}" 2>&1 | tee "results/node-$RELAMPO_NODE.worker.log"
+                  PIPE_STATUS=("${PIPESTATUS[@]}")
+                  WORKER_STATUS=${PIPE_STATUS[0]}
+                  if [ "$WORKER_STATUS" -eq 0 ] && [ "${PIPE_STATUS[1]}" -ne 0 ]; then
+                    WORKER_STATUS=${PIPE_STATUS[1]}
+                  fi
+                  set -e
+                  printf 'worker_status=%s\n' "$WORKER_STATUS" > "results/node-$RELAMPO_NODE.status.txt"
+                  if [ "$WORKER_STATUS" -ne 0 ] && [ ! -s "results/node-$RELAMPO_NODE.failure.txt" ]; then
+                    printf 'worker run failed\n' > "results/node-$RELAMPO_NODE.failure.txt"
+                  fi
+                  if ! compgen -G "results/*node-$RELAMPO_NODE.progress.json" > /dev/null; then
+                    echo "::warning::Worker did not emit progress snapshots. Update relampo-worker."
+                  fi
+                  exit "$WORKER_STATUS"
+                ) || WORKER_STATUS=$?
+                if [ "$SCENARIO_DIR" != "." ] && [ -d "$SCENARIO_DIR/results" ]; then
+                  cp -R "$SCENARIO_DIR/results"/. results/
+                fi
+                printf 'worker_status=%s\n' "$WORKER_STATUS" > "results/node-$RELAMPO_NODE.status.txt"
+                exit "$WORKER_STATUS"
+            - name: Upload logs/artifacts
+              if: always()
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+              with:
+                name: pulse-results-node-${{ matrix.node }}-attempt-${{ github.run_attempt }}
+                path: results/
+                retention-days: ${{ vars.RELAMPO_EVIDENCE_RETENTION_DAYS || 7 }}
+        permissions:
+            contents: read
+            checks: write

@@ -1,0 +1,130 @@
+name: Relampo Cloud Reports
+run-name: Relampo reports for ${{ github.event.workflow_run.id }} (attempt ${{ github.event.workflow_run.run_attempt }})
+
+on:
+  workflow_run:
+    workflows: ["🌩️ Distributed Relampo Test"]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  report:
+    if: github.event.workflow_run.event == 'workflow_dispatch' && github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN: ${{ github.event.workflow_run.id }}
+      SOURCE_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+      SOURCE_SHA: ${{ github.event.workflow_run.head_sha }}
+      GOMEMLIMIT: 3GiB
+      GOGC: '50'
+    steps:
+      - name: Checkout exact source execution
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+
+      - name: Read execution context
+        id: context
+        run: |
+          mkdir -p cloud-context cloud-reports
+          if ! gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" --name "relampo-context-attempt-$SOURCE_ATTEMPT" --dir cloud-context; then
+            cp .relampo/report-context.json cloud-context/report-context.json
+            export RECOVERED_CONTEXT=true
+          fi
+          python3 - <<'PY_CONTEXT'
+          import json, os, pathlib, re
+          context = json.loads(pathlib.Path('cloud-context/report-context.json').read_text())
+          if os.environ.get('RECOVERED_CONTEXT') == 'true':
+              if context['repository'] != os.environ['GITHUB_REPOSITORY'] or context['run_id'] != 0 or context['source_sha']:
+                  raise ValueError('invalid prepared context fallback')
+              context.update(run_id=int(os.environ['SOURCE_RUN']), attempt=int(os.environ['SOURCE_ATTEMPT']), source_sha=os.environ['SOURCE_SHA'])
+              pathlib.Path('cloud-context/report-context.json').write_text(json.dumps(context))
+          if (context['repository'], str(context['run_id']), str(context['attempt']), context['source_sha']) != (os.environ['GITHUB_REPOSITORY'], os.environ['SOURCE_RUN'], os.environ['SOURCE_ATTEMPT'], os.environ['SOURCE_SHA']):
+              raise ValueError('execution context identity mismatch')
+          version = context['version'].removeprefix('v')
+          if version != 'dev' and not re.fullmatch(r'(?:\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?|develop-\d{4}\.\d{2}\.\d{2}\.\d+)', version):
+              raise ValueError('invalid generator version')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('version=' + version + '\n')
+          PY_CONTEXT
+
+      - name: Install matching report generator
+        env:
+          RELAMPO_VERSION: ${{ steps.context.outputs.version }}
+          RELAMPO_RELEASE_PUBLIC_KEY: FCJilB3d1IwW463JL7l4OIKm7KisfLwT5K/OCUJa9v4=
+        run: |
+          verify_release_archive() {
+            archive_url="$1"
+            archive_path="$2"
+            public_key="${RELAMPO_RELEASE_PUBLIC_KEY:-}"; [ -n "$public_key" ] || public_key='FCJilB3d1IwW463JL7l4OIKm7KisfLwT5K/OCUJa9v4='
+            if [ -z "$public_key" ]; then
+              echo "Error: trusted release signing public key is not configured." >&2
+              return 1
+            fi
+            openssl_cmd=""
+            for candidate in "${RELAMPO_OPENSSL:-openssl}" /opt/homebrew/opt/openssl@3/bin/openssl /usr/local/opt/openssl@3/bin/openssl; do
+              if "$candidate" pkeyutl -help 2>&1 | grep -q -- '-rawin'; then openssl_cmd="$candidate"; break; fi
+            done
+            if [ -z "$openssl_cmd" ]; then
+              echo "Error: OpenSSL with Ed25519 verification is required. Set RELAMPO_OPENSSL to a compatible executable." >&2
+              return 1
+            fi
+            verify_dir="$(mktemp -d)"
+            # The prefix is the standard Ed25519 SubjectPublicKeyInfo DER header.
+            { printf '\060\052\060\005\006\003\053\145\160\003\041\000'; printf '%s' "$public_key" | base64 -d; } > "$verify_dir/public.der"
+            curl -fsSL --max-filesize 1048576 "${archive_url%/*}/checksums.txt" -o "$verify_dir/checksums.txt" || { rm -rf "$verify_dir"; return 1; }
+            curl -fsSL --max-filesize 1024 "${archive_url%/*}/checksums.txt.sig" -o "$verify_dir/checksums.txt.sig" || { rm -rf "$verify_dir"; return 1; }
+            if ! "$openssl_cmd" pkeyutl -verify -pubin -keyform DER -inkey "$verify_dir/public.der" -rawin -in "$verify_dir/checksums.txt" -sigfile "$verify_dir/checksums.txt.sig"; then
+              rm -rf "$verify_dir"
+              return 1
+            fi
+            expected="$(awk -v name="${archive_url##*/}" '$2 == name || $2 == "*" name {print $1}' "$verify_dir/checksums.txt")"
+            if command -v sha256sum >/dev/null 2>&1; then actual="$(sha256sum "$archive_path" | cut -d ' ' -f 1)"
+            else actual="$(shasum -a 256 "$archive_path" | cut -d ' ' -f 1)"; fi
+            rm -rf "$verify_dir"
+            [ -n "$expected" ] && [ "$actual" = "$expected" ] || { echo "Error: release archive checksum mismatch." >&2; return 1; }
+          }
+          mkdir -p "$HOME/.local/bin"
+          if [ -f .relampo/bin/relampo ]; then
+            (cd .relampo/bin && sha256sum -c relampo.sha256)
+            install -m 0755 .relampo/bin/relampo "$HOME/.local/bin/relampo"
+          else
+            curl -fsSL "https://d1esekpdu3hjut.cloudfront.net/develop/relampo/v${RELAMPO_VERSION}/relampo_${RELAMPO_VERSION}_linux_amd64.tar.gz" -o /tmp/relampo.tar.gz
+            verify_release_archive "https://d1esekpdu3hjut.cloudfront.net/develop/relampo/v${RELAMPO_VERSION}/relampo_${RELAMPO_VERSION}_linux_amd64.tar.gz" /tmp/relampo.tar.gz
+            tar -xzf /tmp/relampo.tar.gz -C /tmp
+            install -m 0755 /tmp/relampo "$HOME/.local/bin/relampo"
+          fi
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Generate and publish unchanged reports
+        run: |
+          free -m > cloud-reports/runner-before.txt
+          df -B1 / /tmp >> cloud-reports/runner-before.txt
+          (
+            while true; do
+              date -u +%FT%TZ
+              du -sb cloud-reports /tmp/relampo-cloud-report-* 2>/dev/null || true
+              df -B1 /tmp | tail -1
+              free -b | head -2
+              sleep 5
+            done
+          ) > cloud-reports/storage-memory.log &
+          MONITOR_PID=$!
+          trap 'kill "$MONITOR_PID" 2>/dev/null || true' EXIT
+          /usr/bin/time -v -o cloud-reports/generator-resources.txt relampo internal-cloud-report --context cloud-context/report-context.json --output cloud-reports
+
+      - name: Preserve report diagnostics and any unpublished files
+        continue-on-error: true
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: relampo-report-diagnostics-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
+          path: cloud-reports/
+          if-no-files-found: warn
+          retention-days: ${{ vars.RELAMPO_EVIDENCE_RETENTION_DAYS || 7 }}
