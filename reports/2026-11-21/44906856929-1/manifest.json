@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "execution": {
+    "repository": "delvisecheverria/relampo-test1",
+    "run_id": 44906856929,
+    "attempt": 1,
+    "nodes": 2,
+    "vus": 1,
+    "scenario": "scenarios/relampopractice.correlated.yaml",
+    "scenario_sha256": "b7b3bbc62b4aca16a743b8bcc1abe825550d2dbe0e953b29e71abbb6b7927465",
+    "source_sha": "a3d55faf4982efa11870fb67760f8f1130c69145",
+    "version": "develop-2026.11.21.2",
+    "language": "en",
+    "timezone": "America/New_York",
+    "duration": "",
+    "formats": {
+      "html": "report.html",
+      "json": "report.json"
+    },
+    "license": {
+      "license_activation_id": "act_852112ab847809cf",
+      "license_authorized_duration": "1h0m0s",
+      "license_authorized_nodes": "unlimited",
+      "license_authorized_vus": "500",
+      "license_id": "lic_6959d0e65b8dafa4",
+      "license_offline_until": "2026-11-28T13:01:41Z",
+      "license_org_id": "org_fe29bd952dc11352",
+      "license_tier": "scale-500"
+    }
+  },
+  "generation": "completed",
+  "publication": "completed",
+  "outcome": {
+    "status": "completed",
+    "partial": false,
+    "requests": 19,
+    "failures": 11,
+    "received_nodes": [
+      "node-1",
+      "node-2"
+    ],
+    "missing_nodes": null
+  },
+  "reports": [
+    {
+      "name": "report.json",
+      "bytes": 27164,
+      "sha256": "d5eef2523ac0a7c3d0a8fd0fa9df479f691fb3767c7efdaa9c5976b5d1ccd01b",
+      "compression": "gzip",
+      "assets": [
+        {
+          "name": "report.json.gz",
+          "bytes": 4951,
+          "sha256": "c2dc1ba9e5d17d57ba955f5ac90bc5a2b43ea72e1ac8a3ad35280347b09c5321",
+          "url": "https://github.com/delvisecheverria/relampo-test1/releases/download/relampo-report-44906856929-1/report.json.gz"
+        }
+      ]
+    },
+    {
+      "name": "report.html",
+      "bytes": 185437,
+      "sha256": "53a119599b72af9bc330212454ea149091b3d48767e04c5255f54456aff7f1b2",
+      "compression": "gzip",
+      "assets": [
+        {
+          "name": "report.html.gz",
+          "bytes": 56087,
+          "sha256": "5716bee48df62a1589eff66e645cf53d1ab79db160e62fa0caffee3c1d2b3870",
+          "url": "https://github.com/delvisecheverria/relampo-test1/releases/download/relampo-report-44906856929-1/report.html.gz"
+        }
+      ]
+    }
+  ],
+  "release": "https://github.com/delvisecheverria/relampo-test1/releases/tag/relampo-report-44906856929-1",
+  "index": "https://github.com/delvisecheverria/relampo-test1/tree/main/reports/2026-11-21/44906856929-1"
+}
