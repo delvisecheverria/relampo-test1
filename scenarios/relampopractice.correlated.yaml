@@ -1,0 +1,2192 @@
+test:
+  name: Recording from practice.relampo.com - relampopractice
+  description: ''
+  version: '1.0'
+  recorded_at: '2026-10-15T00:16:14Z'
+  recorded_from: http://practice.relampo.com
+http_defaults:
+  base_url: http://practice.relampo.com
+  follow_redirects: true
+  headers:
+    Accept-Encoding: gzip, deflate, br, zstd
+    Accept-Language: en-US,en;q=0.9
+    User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:157.0) Gecko/20100101 Firefox/157.0
+scenarios:
+  - name: Recorded Scenario
+    load:
+      type: constant
+      users: 1
+      duration: 1m
+      ramp_up: 1s
+      iterations: 1
+    cookies:
+      mode: auto
+    steps:
+      - request:
+          request_id: 1
+          name: '[1] GET https://practice.relampo.com/'
+          method: GET
+          url: https://practice.relampo.com/
+          recorded_at: '2026-10-15T00:16:14.342891Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Type: text/html; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:16:14 GMT
+              Set-Cookie: relampo_session=d7109b4662f9adaa31524be655338752b0e4209b576d5e4ee0c36f1f085adfa6; Path=/; HttpOnly; SameSite=Lax
+            body: |-
+              <!DOCTYPE html>
+              <html lang="es">
+              <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+              <title>RelampoTickets</title>
+              <style>
+              :root {
+                --bg: #0b0f1a;
+                --bg-panel: #121829;
+                --bg-inset: #0e1422;
+                --border: #26304d;
+                --text: #e8ecf6;
+                --text-dim: #93a0bd;
+                --accent: #ffd60a;
+                --accent-strong: #ffc300;
+                --accent-ink: #14180a;
+                --ok: #4ade80;
+                --err: #f87171;
+                --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+              }
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body {
+                background: var(--bg);
+                background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 214, 10, 0.08), transparent);
+                color: var(--text);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                min-height: 100vh;
+              }
+              header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 16px 28px; border-bottom: 1px solid var(--border);
+              }
+              .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
+              .logo .bolt { color: var(--accent); margin-right: 6px; }
+              .logo .tag { color: var(--accent); }
+              nav { display: flex; align-items: center; }
+              nav a { color: var(--text-dim); text-decoration: none; margin-left: 18px; font-size: 14px; }
+              nav a:hover { color: var(--accent); }
+              .lang { margin-left: 22px; display: inline-flex; gap: 6px; }
+              .lang a {
+                margin-left: 0; font-size: 12px; font-weight: 700; padding: 3px 9px;
+                border: 1px solid var(--border); border-radius: 6px; color: var(--text-dim);
+              }
+              .lang a.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+              .userchip {
+                margin-left: 18px; font-size: 12px; font-weight: 700; font-family: var(--mono);
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 3px 10px;
+              }
+              .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+              @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+              main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+              h1 { font-size: 30px; letter-spacing: -0.5px; margin-bottom: 8px; }
+              h1 .hl { color: var(--accent); }
+              .sub { color: var(--text-dim); margin-bottom: 28px; font-size: 15px; }
+              .panel {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 24px; margin-bottom: 20px;
+              }
+              .panel h2 { font-size: 17px; margin-bottom: 14px; }
+              label { display: block; font-size: 13px; color: var(--text-dim); margin: 12px 0 4px; }
+              input[type=text], input[type=password] {
+                width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+                background: var(--bg-inset); color: var(--text); font-size: 15px;
+              }
+              input:focus { outline: none; border-color: var(--accent); }
+              button, .btn {
+                display: inline-block; margin-top: 18px; padding: 11px 22px; border: none; border-radius: 8px;
+                background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px;
+                cursor: pointer; text-decoration: none;
+              }
+              button:hover, .btn:hover { background: var(--accent-strong); }
+              .status { margin-top: 14px; font-size: 14px; color: var(--text-dim); }
+              .status.err { color: var(--err); }
+              .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px; font-size: 14px; }
+              .kv dt { color: var(--text-dim); }
+              .kv dd { font-family: var(--mono); word-break: break-all; }
+              code, .tok {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; word-break: break-all;
+              }
+              .note { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+              .note a { color: var(--accent); }
+              .badge {
+                display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 2px 10px; margin-bottom: 14px; text-transform: uppercase;
+              }
+              .receipt { font-size: 40px; margin: 6px 0 2px; color: var(--ok); font-weight: 800; }
+              pre.json {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+                overflow-x: auto; margin-top: 12px; color: var(--text);
+              }
+              footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 24px; }
+              .features-head {
+                margin-top: 44px; margin-bottom: 14px; font-size: 12px; letter-spacing: 1.4px;
+                text-transform: uppercase; color: var(--accent); font-weight: 700;
+              }
+              .features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+              @media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+              .feature {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 18px 18px 16px;
+              }
+              .feature .ico { display: block; margin-bottom: 12px; }
+              .feature .ico svg { width: 22px; height: 22px; stroke: var(--accent); }
+              .feature h3 { font-size: 15px; margin-bottom: 6px; }
+              .feature p { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+              .features-link { display: block; margin-top: 16px; font-size: 13px; color: var(--accent); text-decoration: none; }
+              .features-link:hover { text-decoration: underline; }
+              </style>
+              </head>
+
+              <body data-page="home">
+              <header>
+                <a class="logo" href="/"><span class="bolt">&#9889;</span>Relampo<span class="tag">Tickets</span></a>
+                <nav>
+                  
+                  <span class="lang"><a href="#" data-setlang="es">ES</a><a href="#" data-setlang="en">EN</a></span>
+                </nav>
+              </header>
+              <main>
+                <h1><span data-i18n="homeTitle">Entradas para tus eventos,</span> <span class="hl" data-i18n="homeTitleHl">a la velocidad del rayo</span></h1>
+              <p class="sub" data-i18n="homeSub">Inicia sesi&oacute;n para comprar entradas.</p>
+                <div class="panel">
+                  <h2 data-i18n="loginTitle">Iniciar sesi&oacute;n</h2>
+                  <form id="loginForm">
+                    <input type="hidden" name="csrf_token" value="0679d8395b34bf2950f25e5c2d0eb62f5129fe7e">
+                    <label for="username" data-i18n="userLabel">Usuario</label>
+                    <input type="text" id="username" name="username" autocomplete="off" placeholder="usuario" data-i18n-ph="userPh">
+                    <label for="password" data-i18n="passLabel">Contrase&ntilde;a</label>
+                    <input type="password" id="password" name="password" placeholder="contrase&ntilde;a" data-i18n-ph="passPh">
+                    <button type="submit" data-i18n="loginBtn">Entrar</button>
+                    <div id="status" class="status"></div>
+                  </form>
+                </div>
+
+                <div class="features-head" data-i18n="featHead">&iquest;Por qu&eacute; Relampo?</div>
+                <div class="features">
+                  <div class="feature">
+                    <span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                    <h3 data-i18n="feat1t">Correlaci&oacute;n autom&aacute;tica completa</h3>
+              <p data-i18n="feat1d">Relampo detecta y correlaciona los valores din&aacute;micos por ti al grabar: menos scripting manual, pruebas listas antes.</p>
+                  </div>
+                  <div class="feature">
+                    <span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+                    <h3 data-i18n="feat2t">500 usuarios virtuales, 4 nodos</h3>
+              <p data-i18n="feat2d">Genera hasta 500 usuarios virtuales distribuidos en 4 nodos de carga con la integraci&oacute;n nativa de Relampo con GitHub.</p>
+                  </div>
+                  <div class="feature">
+                    <span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m10 12-2 2 2 2"/><path d="m14 16 2-2-2-2"/></svg></span>
+                    <h3 data-i18n="feat3t">Scripts YAML declarativos</h3>
+              <p data-i18n="feat3d">F&aacute;ciles de leer, intuitivos y versionables en Git: revisas tus pruebas de rendimiento como revisas c&oacute;digo.</p>
+                  </div>
+                  <div class="feature">
+                    <span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg></span>
+                    <h3 data-i18n="feat4t">Motor de carga en Go</h3>
+                    <p data-i18n="feat4d">Generaci&oacute;n de carga de alto rendimiento con la eficiencia y la concurrencia nativa de Go.</p>
+                  </div>
+                </div>
+              <a class="features-link" href="https://relampo.com" target="_blank" rel="noopener" data-i18n="featLink">Conoce m&aacute;s en relampo.com &rarr;</a>
+              </main>
+              <footer data-i18n="footer">RelampoTickets &mdash; app de pr&aacute;ctica para correlaci&oacute;n en pruebas de rendimiento</footer>
+              <script src="/static/app.js"></script>
+              </body>
+              </html>
+            time_ms: 40
+          response_preview:
+            status: 200
+            size_bytes: 9089
+            time_ms: 40
+          extractors:
+            - type: regex
+              from: body
+              var: csrf_token
+              default: 'Regex value not found: csrf_token'
+              transform: html_decode
+              pattern: (?is)<input[^>]*name=["']csrf_token["'][^>]*value=["']([^"']+)["']
+              group: 1
+              variable: csrf_token
+              capture_mode: first
+              match_no: 1
+              template: $1$
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Priority: u=0, i
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: none
+            Sec-Fetch-User: '?1'
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 2
+          name: '[2] POST https://practice.relampo.com/api/auth'
+          method: POST
+          url: https://practice.relampo.com/api/auth
+          body:
+            password: Pass001!
+            username: user001
+          recorded_at: '2026-10-15T00:16:30.437219Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Length: '371'
+              Content-Type: application/json; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:16:30 GMT
+            body:
+              bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTIwMzA1OTAsImlhdCI6MTc5MjAyMzM5MCwiaXNzIjoiUmVsYW1wb1RpY2tldHMiLCJzY29wZSI6InRpY2tldHMuYnJvd3NlIHRpY2tldHMuYnV5Iiwic3ViIjoidXNlcjAwMSJ9.MPWY2gwZZb3-DtjVm_3jFT1I7nKsWn7RR_c6bO2iUGk
+              expSeconds: 7200
+              issuedAt: '2026-10-15T00:16:30Z'
+              tokenType: Bearer
+              user:
+                displayName: User 001
+                username: user001
+            time_ms: 40
+          response_preview:
+            status: 200
+            size_bytes: 371
+            time_ms: 40
+          headers:
+            Accept: '*/*'
+            Connection: keep-alive
+            Content-Length: '44'
+            Content-Type: application/json
+            Origin: https://practice.relampo.com
+            Priority: u=0
+            Referer: https://practice.relampo.com/
+            Sec-Fetch-Dest: empty
+            Sec-Fetch-Mode: cors
+            Sec-Fetch-Site: same-origin
+      - request:
+          request_id: 3
+          name: '[3] GET https://practice.relampo.com/manage'
+          method: GET
+          url: https://practice.relampo.com/manage
+          recorded_at: '2026-10-15T00:16:30.50643Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Type: text/html; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:16:30 GMT
+            body: |-
+              <!DOCTYPE html>
+              <html lang="es">
+              <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+              <title>RelampoTickets</title>
+              <style>
+              :root {
+                --bg: #0b0f1a;
+                --bg-panel: #121829;
+                --bg-inset: #0e1422;
+                --border: #26304d;
+                --text: #e8ecf6;
+                --text-dim: #93a0bd;
+                --accent: #ffd60a;
+                --accent-strong: #ffc300;
+                --accent-ink: #14180a;
+                --ok: #4ade80;
+                --err: #f87171;
+                --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+              }
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body {
+                background: var(--bg);
+                background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 214, 10, 0.08), transparent);
+                color: var(--text);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                min-height: 100vh;
+              }
+              header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 16px 28px; border-bottom: 1px solid var(--border);
+              }
+              .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
+              .logo .bolt { color: var(--accent); margin-right: 6px; }
+              .logo .tag { color: var(--accent); }
+              nav { display: flex; align-items: center; }
+              nav a { color: var(--text-dim); text-decoration: none; margin-left: 18px; font-size: 14px; }
+              nav a:hover { color: var(--accent); }
+              .lang { margin-left: 22px; display: inline-flex; gap: 6px; }
+              .lang a {
+                margin-left: 0; font-size: 12px; font-weight: 700; padding: 3px 9px;
+                border: 1px solid var(--border); border-radius: 6px; color: var(--text-dim);
+              }
+              .lang a.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+              .userchip {
+                margin-left: 18px; font-size: 12px; font-weight: 700; font-family: var(--mono);
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 3px 10px;
+              }
+              .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+              @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+              main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+              h1 { font-size: 30px; letter-spacing: -0.5px; margin-bottom: 8px; }
+              h1 .hl { color: var(--accent); }
+              .sub { color: var(--text-dim); margin-bottom: 28px; font-size: 15px; }
+              .panel {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 24px; margin-bottom: 20px;
+              }
+              .panel h2 { font-size: 17px; margin-bottom: 14px; }
+              label { display: block; font-size: 13px; color: var(--text-dim); margin: 12px 0 4px; }
+              input[type=text], input[type=password] {
+                width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+                background: var(--bg-inset); color: var(--text); font-size: 15px;
+              }
+              input:focus { outline: none; border-color: var(--accent); }
+              button, .btn {
+                display: inline-block; margin-top: 18px; padding: 11px 22px; border: none; border-radius: 8px;
+                background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px;
+                cursor: pointer; text-decoration: none;
+              }
+              button:hover, .btn:hover { background: var(--accent-strong); }
+              .status { margin-top: 14px; font-size: 14px; color: var(--text-dim); }
+              .status.err { color: var(--err); }
+              .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px; font-size: 14px; }
+              .kv dt { color: var(--text-dim); }
+              .kv dd { font-family: var(--mono); word-break: break-all; }
+              code, .tok {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; word-break: break-all;
+              }
+              .note { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+              .note a { color: var(--accent); }
+              .badge {
+                display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 2px 10px; margin-bottom: 14px; text-transform: uppercase;
+              }
+              .receipt { font-size: 40px; margin: 6px 0 2px; color: var(--ok); font-weight: 800; }
+              pre.json {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+                overflow-x: auto; margin-top: 12px; color: var(--text);
+              }
+              footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 24px; }
+              .features-head {
+                margin-top: 44px; margin-bottom: 14px; font-size: 12px; letter-spacing: 1.4px;
+                text-transform: uppercase; color: var(--accent); font-weight: 700;
+              }
+              .features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+              @media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+              .feature {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 18px 18px 16px;
+              }
+              .feature .ico { display: block; margin-bottom: 12px; }
+              .feature .ico svg { width: 22px; height: 22px; stroke: var(--accent); }
+              .feature h3 { font-size: 15px; margin-bottom: 6px; }
+              .feature p { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+              .features-link { display: block; margin-top: 16px; font-size: 13px; color: var(--accent); text-decoration: none; }
+              .features-link:hover { text-decoration: underline; }
+              </style>
+              </head>
+
+              <body data-page="manage">
+              <header>
+                <a class="logo" href="/"><span class="bolt">&#9889;</span>Relampo<span class="tag">Tickets</span></a>
+                <nav>
+                  <a href="/events" data-i18n="navBuy">comprar</a><a href="/manage" data-i18n="navManage">mis eventos</a>
+                  <span class="userchip">user001</span>
+                  <a href="/logout" data-i18n="navLogout">salir</a>
+                  <span class="lang"><a href="#" data-setlang="es">ES</a><a href="#" data-setlang="en">EN</a></span>
+                </nav>
+              </header>
+              <main>
+                <h1><span data-i18n="manageTitle">Mis</span> <span class="hl" data-i18n="manageTitleHl">eventos</span></h1>
+              <p class="sub" data-i18n="manageSub">Crea tus propios eventos: aparecen en el cat&aacute;logo y se pueden comprar.</p>
+                <div class="cols">
+                <div class="panel">
+                  <h2 data-i18n="createTitle">Crear evento</h2>
+
+                  <form id="createForm">
+                    <input type="hidden" name="publish_token" value="PUB-315590773f6d886e5c62f5885a3e3584">
+                    <label for="evname" data-i18n="nameLabel">Nombre</label>
+                    <input type="text" id="evname" autocomplete="off" placeholder="Festival de Invierno" data-i18n-ph="namePh">
+                    <label for="evvenue" data-i18n="venueLabel">Lugar</label>
+                    <input type="text" id="evvenue" autocomplete="off" placeholder="Teatro Principal" data-i18n-ph="venuePh">
+                    <label for="evdate" data-i18n="dateLabel">Fecha</label>
+                    <input type="text" id="evdate" autocomplete="off" placeholder="2026-12-01">
+                    <button type="submit" data-i18n="publishBtn">Publicar evento</button>
+                    <div id="status" class="status"></div>
+                  </form>
+                </div>
+                <div class="panel">
+                  <h2 data-i18n="publishedTitle">Eventos publicados</h2>
+                  <div id="myEvents" class="note">&hellip;</div>
+                </div>
+                </div>
+              </main>
+              <footer data-i18n="footer">RelampoTickets &mdash; app de pr&aacute;ctica para correlaci&oacute;n en pruebas de rendimiento</footer>
+              <script src="/static/app.js"></script>
+              </body>
+              </html>
+            time_ms: 39
+          response_preview:
+            status: 200
+            size_bytes: 7155
+            time_ms: 39
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-User: '?1'
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 4
+          name: '[4] GET https://practice.relampo.com/api/manage/events'
+          method: GET
+          url: https://practice.relampo.com/api/manage/events
+          recorded_at: '2026-10-15T00:16:30.645687Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Length: '168'
+              Content-Type: application/json; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:16:30 GMT
+            body:
+              count: 1
+              events:
+                - date: '2026-12-31'
+                  id: EV-85d157d7-1d07-4eed-853d-5a3100e981cf
+                  name: Relampo Fest
+                  rev: 1-15e306dab9aa74a9
+                  venue: Estadio del Rayo
+            time_ms: 37
+          response_preview:
+            status: 200
+            size_bytes: 168
+            time_ms: 37
+          headers:
+            Accept: '*/*'
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTIwMzA1OTAsImlhdCI6MTc5MjAyMzM5MCwiaXNzIjoiUmVsYW1wb1RpY2tldHMiLCJzY29wZSI6InRpY2tldHMuYnJvd3NlIHRpY2tldHMuYnV5Iiwic3ViIjoidXNlcjAwMSJ9.MPWY2gwZZb3-DtjVm_3jFT1I7nKsWn7RR_c6bO2iUGk
+            Connection: keep-alive
+            Priority: u=4
+            Referer: https://practice.relampo.com/manage
+            Sec-Fetch-Dest: empty
+            Sec-Fetch-Mode: cors
+            Sec-Fetch-Site: same-origin
+      - request:
+          request_id: 5
+          name: '[5] POST https://practice.relampo.com/api/manage/events'
+          method: POST
+          url: https://practice.relampo.com/api/manage/events
+          body:
+            date: '2026-10-24'
+            name: RelampoEvent
+            publishToken: PUB-315590773f6d886e5c62f5885a3e3584
+            venue: Miamo
+          recorded_at: '2026-10-15T00:17:06.864538Z'
+          response:
+            status: 201
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Length: '144'
+              Content-Type: application/json; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:07 GMT
+            body:
+              event:
+                date: '2026-10-24'
+                id: EV-ee4d2e87-2158-4ac6-9807-dc93507563b7
+                name: RelampoEvent
+                rev: 1-533031df4af4a4c8
+                venue: Miamo
+            time_ms: 37
+          response_preview:
+            status: 201
+            size_bytes: 144
+            time_ms: 37
+          headers:
+            Accept: '*/*'
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTIwMzA1OTAsImlhdCI6MTc5MjAyMzM5MCwiaXNzIjoiUmVsYW1wb1RpY2tldHMiLCJzY29wZSI6InRpY2tldHMuYnJvd3NlIHRpY2tldHMuYnV5Iiwic3ViIjoidXNlcjAwMSJ9.MPWY2gwZZb3-DtjVm_3jFT1I7nKsWn7RR_c6bO2iUGk
+            Connection: keep-alive
+            Content-Length: '113'
+            Content-Type: application/json
+            Origin: https://practice.relampo.com
+            Priority: u=0
+            Referer: https://practice.relampo.com/manage
+            Sec-Fetch-Dest: empty
+            Sec-Fetch-Mode: cors
+            Sec-Fetch-Site: same-origin
+      - request:
+          request_id: 6
+          name: '[6] GET https://practice.relampo.com/manage'
+          method: GET
+          url: https://practice.relampo.com/manage
+          recorded_at: '2026-10-15T00:17:06.915827Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Type: text/html; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:07 GMT
+            body: |-
+              <!DOCTYPE html>
+              <html lang="es">
+              <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+              <title>RelampoTickets</title>
+              <style>
+              :root {
+                --bg: #0b0f1a;
+                --bg-panel: #121829;
+                --bg-inset: #0e1422;
+                --border: #26304d;
+                --text: #e8ecf6;
+                --text-dim: #93a0bd;
+                --accent: #ffd60a;
+                --accent-strong: #ffc300;
+                --accent-ink: #14180a;
+                --ok: #4ade80;
+                --err: #f87171;
+                --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+              }
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body {
+                background: var(--bg);
+                background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 214, 10, 0.08), transparent);
+                color: var(--text);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                min-height: 100vh;
+              }
+              header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 16px 28px; border-bottom: 1px solid var(--border);
+              }
+              .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
+              .logo .bolt { color: var(--accent); margin-right: 6px; }
+              .logo .tag { color: var(--accent); }
+              nav { display: flex; align-items: center; }
+              nav a { color: var(--text-dim); text-decoration: none; margin-left: 18px; font-size: 14px; }
+              nav a:hover { color: var(--accent); }
+              .lang { margin-left: 22px; display: inline-flex; gap: 6px; }
+              .lang a {
+                margin-left: 0; font-size: 12px; font-weight: 700; padding: 3px 9px;
+                border: 1px solid var(--border); border-radius: 6px; color: var(--text-dim);
+              }
+              .lang a.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+              .userchip {
+                margin-left: 18px; font-size: 12px; font-weight: 700; font-family: var(--mono);
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 3px 10px;
+              }
+              .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+              @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+              main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+              h1 { font-size: 30px; letter-spacing: -0.5px; margin-bottom: 8px; }
+              h1 .hl { color: var(--accent); }
+              .sub { color: var(--text-dim); margin-bottom: 28px; font-size: 15px; }
+              .panel {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 24px; margin-bottom: 20px;
+              }
+              .panel h2 { font-size: 17px; margin-bottom: 14px; }
+              label { display: block; font-size: 13px; color: var(--text-dim); margin: 12px 0 4px; }
+              input[type=text], input[type=password] {
+                width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+                background: var(--bg-inset); color: var(--text); font-size: 15px;
+              }
+              input:focus { outline: none; border-color: var(--accent); }
+              button, .btn {
+                display: inline-block; margin-top: 18px; padding: 11px 22px; border: none; border-radius: 8px;
+                background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px;
+                cursor: pointer; text-decoration: none;
+              }
+              button:hover, .btn:hover { background: var(--accent-strong); }
+              .status { margin-top: 14px; font-size: 14px; color: var(--text-dim); }
+              .status.err { color: var(--err); }
+              .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px; font-size: 14px; }
+              .kv dt { color: var(--text-dim); }
+              .kv dd { font-family: var(--mono); word-break: break-all; }
+              code, .tok {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; word-break: break-all;
+              }
+              .note { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+              .note a { color: var(--accent); }
+              .badge {
+                display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 2px 10px; margin-bottom: 14px; text-transform: uppercase;
+              }
+              .receipt { font-size: 40px; margin: 6px 0 2px; color: var(--ok); font-weight: 800; }
+              pre.json {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+                overflow-x: auto; margin-top: 12px; color: var(--text);
+              }
+              footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 24px; }
+              .features-head {
+                margin-top: 44px; margin-bottom: 14px; font-size: 12px; letter-spacing: 1.4px;
+                text-transform: uppercase; color: var(--accent); font-weight: 700;
+              }
+              .features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+              @media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+              .feature {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 18px 18px 16px;
+              }
+              .feature .ico { display: block; margin-bottom: 12px; }
+              .feature .ico svg { width: 22px; height: 22px; stroke: var(--accent); }
+              .feature h3 { font-size: 15px; margin-bottom: 6px; }
+              .feature p { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+              .features-link { display: block; margin-top: 16px; font-size: 13px; color: var(--accent); text-decoration: none; }
+              .features-link:hover { text-decoration: underline; }
+              </style>
+              </head>
+
+              <body data-page="manage">
+              <header>
+                <a class="logo" href="/"><span class="bolt">&#9889;</span>Relampo<span class="tag">Tickets</span></a>
+                <nav>
+                  <a href="/events" data-i18n="navBuy">comprar</a><a href="/manage" data-i18n="navManage">mis eventos</a>
+                  <span class="userchip">user001</span>
+                  <a href="/logout" data-i18n="navLogout">salir</a>
+                  <span class="lang"><a href="#" data-setlang="es">ES</a><a href="#" data-setlang="en">EN</a></span>
+                </nav>
+              </header>
+              <main>
+                <h1><span data-i18n="manageTitle">Mis</span> <span class="hl" data-i18n="manageTitleHl">eventos</span></h1>
+              <p class="sub" data-i18n="manageSub">Crea tus propios eventos: aparecen en el cat&aacute;logo y se pueden comprar.</p>
+                <div class="cols">
+                <div class="panel">
+                  <h2 data-i18n="createTitle">Crear evento</h2>
+
+                  <form id="createForm">
+                    <input type="hidden" name="publish_token" value="PUB-c82107adad81f4808494d57c2018ee65">
+                    <label for="evname" data-i18n="nameLabel">Nombre</label>
+                    <input type="text" id="evname" autocomplete="off" placeholder="Festival de Invierno" data-i18n-ph="namePh">
+                    <label for="evvenue" data-i18n="venueLabel">Lugar</label>
+                    <input type="text" id="evvenue" autocomplete="off" placeholder="Teatro Principal" data-i18n-ph="venuePh">
+                    <label for="evdate" data-i18n="dateLabel">Fecha</label>
+                    <input type="text" id="evdate" autocomplete="off" placeholder="2026-12-01">
+                    <button type="submit" data-i18n="publishBtn">Publicar evento</button>
+                    <div id="status" class="status"></div>
+                  </form>
+                </div>
+                <div class="panel">
+                  <h2 data-i18n="publishedTitle">Eventos publicados</h2>
+                  <div id="myEvents" class="note">&hellip;</div>
+                </div>
+                </div>
+              </main>
+              <footer data-i18n="footer">RelampoTickets &mdash; app de pr&aacute;ctica para correlaci&oacute;n en pruebas de rendimiento</footer>
+              <script src="/static/app.js"></script>
+              </body>
+              </html>
+            time_ms: 39
+          response_preview:
+            status: 200
+            size_bytes: 7155
+            time_ms: 39
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-User: '?1'
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 7
+          name: '[7] GET https://practice.relampo.com/api/manage/events'
+          method: GET
+          url: https://practice.relampo.com/api/manage/events
+          recorded_at: '2026-10-15T00:17:07.021555Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Length: '302'
+              Content-Type: application/json; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:07 GMT
+            body:
+              count: 2
+              events:
+                - date: '2026-12-31'
+                  id: EV-85d157d7-1d07-4eed-853d-5a3100e981cf
+                  name: Relampo Fest
+                  rev: 1-15e306dab9aa74a9
+                  venue: Estadio del Rayo
+                - date: '2026-10-24'
+                  id: EV-ee4d2e87-2158-4ac6-9807-dc93507563b7
+                  name: RelampoEvent
+                  rev: 1-533031df4af4a4c8
+                  venue: Miamo
+            time_ms: 36
+          response_preview:
+            status: 200
+            size_bytes: 302
+            time_ms: 36
+          headers:
+            Accept: '*/*'
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTIwMzA1OTAsImlhdCI6MTc5MjAyMzM5MCwiaXNzIjoiUmVsYW1wb1RpY2tldHMiLCJzY29wZSI6InRpY2tldHMuYnJvd3NlIHRpY2tldHMuYnV5Iiwic3ViIjoidXNlcjAwMSJ9.MPWY2gwZZb3-DtjVm_3jFT1I7nKsWn7RR_c6bO2iUGk
+            Connection: keep-alive
+            Priority: u=4
+            Referer: https://practice.relampo.com/manage
+            Sec-Fetch-Dest: empty
+            Sec-Fetch-Mode: cors
+            Sec-Fetch-Site: same-origin
+      - request:
+          request_id: 8
+          name: '[8] GET https://practice.relampo.com/manage'
+          method: GET
+          url: https://practice.relampo.com/manage
+          recorded_at: '2026-10-15T00:17:14.38557Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Type: text/html; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:14 GMT
+            body: |-
+              <!DOCTYPE html>
+              <html lang="es">
+              <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+              <title>RelampoTickets</title>
+              <style>
+              :root {
+                --bg: #0b0f1a;
+                --bg-panel: #121829;
+                --bg-inset: #0e1422;
+                --border: #26304d;
+                --text: #e8ecf6;
+                --text-dim: #93a0bd;
+                --accent: #ffd60a;
+                --accent-strong: #ffc300;
+                --accent-ink: #14180a;
+                --ok: #4ade80;
+                --err: #f87171;
+                --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+              }
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body {
+                background: var(--bg);
+                background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 214, 10, 0.08), transparent);
+                color: var(--text);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                min-height: 100vh;
+              }
+              header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 16px 28px; border-bottom: 1px solid var(--border);
+              }
+              .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
+              .logo .bolt { color: var(--accent); margin-right: 6px; }
+              .logo .tag { color: var(--accent); }
+              nav { display: flex; align-items: center; }
+              nav a { color: var(--text-dim); text-decoration: none; margin-left: 18px; font-size: 14px; }
+              nav a:hover { color: var(--accent); }
+              .lang { margin-left: 22px; display: inline-flex; gap: 6px; }
+              .lang a {
+                margin-left: 0; font-size: 12px; font-weight: 700; padding: 3px 9px;
+                border: 1px solid var(--border); border-radius: 6px; color: var(--text-dim);
+              }
+              .lang a.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+              .userchip {
+                margin-left: 18px; font-size: 12px; font-weight: 700; font-family: var(--mono);
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 3px 10px;
+              }
+              .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+              @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+              main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+              h1 { font-size: 30px; letter-spacing: -0.5px; margin-bottom: 8px; }
+              h1 .hl { color: var(--accent); }
+              .sub { color: var(--text-dim); margin-bottom: 28px; font-size: 15px; }
+              .panel {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 24px; margin-bottom: 20px;
+              }
+              .panel h2 { font-size: 17px; margin-bottom: 14px; }
+              label { display: block; font-size: 13px; color: var(--text-dim); margin: 12px 0 4px; }
+              input[type=text], input[type=password] {
+                width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+                background: var(--bg-inset); color: var(--text); font-size: 15px;
+              }
+              input:focus { outline: none; border-color: var(--accent); }
+              button, .btn {
+                display: inline-block; margin-top: 18px; padding: 11px 22px; border: none; border-radius: 8px;
+                background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px;
+                cursor: pointer; text-decoration: none;
+              }
+              button:hover, .btn:hover { background: var(--accent-strong); }
+              .status { margin-top: 14px; font-size: 14px; color: var(--text-dim); }
+              .status.err { color: var(--err); }
+              .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px; font-size: 14px; }
+              .kv dt { color: var(--text-dim); }
+              .kv dd { font-family: var(--mono); word-break: break-all; }
+              code, .tok {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; word-break: break-all;
+              }
+              .note { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+              .note a { color: var(--accent); }
+              .badge {
+                display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 2px 10px; margin-bottom: 14px; text-transform: uppercase;
+              }
+              .receipt { font-size: 40px; margin: 6px 0 2px; color: var(--ok); font-weight: 800; }
+              pre.json {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+                overflow-x: auto; margin-top: 12px; color: var(--text);
+              }
+              footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 24px; }
+              .features-head {
+                margin-top: 44px; margin-bottom: 14px; font-size: 12px; letter-spacing: 1.4px;
+                text-transform: uppercase; color: var(--accent); font-weight: 700;
+              }
+              .features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+              @media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+              .feature {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 18px 18px 16px;
+              }
+              .feature .ico { display: block; margin-bottom: 12px; }
+              .feature .ico svg { width: 22px; height: 22px; stroke: var(--accent); }
+              .feature h3 { font-size: 15px; margin-bottom: 6px; }
+              .feature p { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+              .features-link { display: block; margin-top: 16px; font-size: 13px; color: var(--accent); text-decoration: none; }
+              .features-link:hover { text-decoration: underline; }
+              </style>
+              </head>
+
+              <body data-page="manage">
+              <header>
+                <a class="logo" href="/"><span class="bolt">&#9889;</span>Relampo<span class="tag">Tickets</span></a>
+                <nav>
+                  <a href="/events" data-i18n="navBuy">comprar</a><a href="/manage" data-i18n="navManage">mis eventos</a>
+                  <span class="userchip">user001</span>
+                  <a href="/logout" data-i18n="navLogout">salir</a>
+                  <span class="lang"><a href="#" data-setlang="es">ES</a><a href="#" data-setlang="en">EN</a></span>
+                </nav>
+              </header>
+              <main>
+                <h1><span data-i18n="manageTitle">Mis</span> <span class="hl" data-i18n="manageTitleHl">eventos</span></h1>
+              <p class="sub" data-i18n="manageSub">Crea tus propios eventos: aparecen en el cat&aacute;logo y se pueden comprar.</p>
+                <div class="cols">
+                <div class="panel">
+                  <h2 data-i18n="createTitle">Crear evento</h2>
+
+                  <form id="createForm">
+                    <input type="hidden" name="publish_token" value="PUB-53f4273ee209efc9d704a9e3cbe4c1b6">
+                    <label for="evname" data-i18n="nameLabel">Nombre</label>
+                    <input type="text" id="evname" autocomplete="off" placeholder="Festival de Invierno" data-i18n-ph="namePh">
+                    <label for="evvenue" data-i18n="venueLabel">Lugar</label>
+                    <input type="text" id="evvenue" autocomplete="off" placeholder="Teatro Principal" data-i18n-ph="venuePh">
+                    <label for="evdate" data-i18n="dateLabel">Fecha</label>
+                    <input type="text" id="evdate" autocomplete="off" placeholder="2026-12-01">
+                    <button type="submit" data-i18n="publishBtn">Publicar evento</button>
+                    <div id="status" class="status"></div>
+                  </form>
+                </div>
+                <div class="panel">
+                  <h2 data-i18n="publishedTitle">Eventos publicados</h2>
+                  <div id="myEvents" class="note">&hellip;</div>
+                </div>
+                </div>
+              </main>
+              <footer data-i18n="footer">RelampoTickets &mdash; app de pr&aacute;ctica para correlaci&oacute;n en pruebas de rendimiento</footer>
+              <script src="/static/app.js"></script>
+              </body>
+              </html>
+            time_ms: 45
+          response_preview:
+            status: 200
+            size_bytes: 7155
+            time_ms: 45
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/manage
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-User: '?1'
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 9
+          name: '[9] GET https://practice.relampo.com/api/manage/events'
+          method: GET
+          url: https://practice.relampo.com/api/manage/events
+          recorded_at: '2026-10-15T00:17:14.496909Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Length: '302'
+              Content-Type: application/json; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:14 GMT
+            body:
+              count: 2
+              events:
+                - date: '2026-12-31'
+                  id: EV-85d157d7-1d07-4eed-853d-5a3100e981cf
+                  name: Relampo Fest
+                  rev: 1-15e306dab9aa74a9
+                  venue: Estadio del Rayo
+                - date: '2026-10-24'
+                  id: EV-ee4d2e87-2158-4ac6-9807-dc93507563b7
+                  name: RelampoEvent
+                  rev: 1-533031df4af4a4c8
+                  venue: Miamo
+            time_ms: 37
+          response_preview:
+            status: 200
+            size_bytes: 302
+            time_ms: 37
+          headers:
+            Accept: '*/*'
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTIwMzA1OTAsImlhdCI6MTc5MjAyMzM5MCwiaXNzIjoiUmVsYW1wb1RpY2tldHMiLCJzY29wZSI6InRpY2tldHMuYnJvd3NlIHRpY2tldHMuYnV5Iiwic3ViIjoidXNlcjAwMSJ9.MPWY2gwZZb3-DtjVm_3jFT1I7nKsWn7RR_c6bO2iUGk
+            Connection: keep-alive
+            Priority: u=4
+            Referer: https://practice.relampo.com/manage
+            Sec-Fetch-Dest: empty
+            Sec-Fetch-Mode: cors
+            Sec-Fetch-Site: same-origin
+      - request:
+          request_id: 10
+          name: '[10] GET https://practice.relampo.com/events'
+          method: GET
+          url: https://practice.relampo.com/events
+          recorded_at: '2026-10-15T00:17:21.334706Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Type: text/html; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:21 GMT
+            body: |-
+              <!DOCTYPE html>
+              <html lang="es">
+              <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+              <title>RelampoTickets</title>
+              <style>
+              :root {
+                --bg: #0b0f1a;
+                --bg-panel: #121829;
+                --bg-inset: #0e1422;
+                --border: #26304d;
+                --text: #e8ecf6;
+                --text-dim: #93a0bd;
+                --accent: #ffd60a;
+                --accent-strong: #ffc300;
+                --accent-ink: #14180a;
+                --ok: #4ade80;
+                --err: #f87171;
+                --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+              }
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body {
+                background: var(--bg);
+                background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 214, 10, 0.08), transparent);
+                color: var(--text);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                min-height: 100vh;
+              }
+              header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 16px 28px; border-bottom: 1px solid var(--border);
+              }
+              .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
+              .logo .bolt { color: var(--accent); margin-right: 6px; }
+              .logo .tag { color: var(--accent); }
+              nav { display: flex; align-items: center; }
+              nav a { color: var(--text-dim); text-decoration: none; margin-left: 18px; font-size: 14px; }
+              nav a:hover { color: var(--accent); }
+              .lang { margin-left: 22px; display: inline-flex; gap: 6px; }
+              .lang a {
+                margin-left: 0; font-size: 12px; font-weight: 700; padding: 3px 9px;
+                border: 1px solid var(--border); border-radius: 6px; color: var(--text-dim);
+              }
+              .lang a.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+              .userchip {
+                margin-left: 18px; font-size: 12px; font-weight: 700; font-family: var(--mono);
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 3px 10px;
+              }
+              .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+              @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+              main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+              h1 { font-size: 30px; letter-spacing: -0.5px; margin-bottom: 8px; }
+              h1 .hl { color: var(--accent); }
+              .sub { color: var(--text-dim); margin-bottom: 28px; font-size: 15px; }
+              .panel {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 24px; margin-bottom: 20px;
+              }
+              .panel h2 { font-size: 17px; margin-bottom: 14px; }
+              label { display: block; font-size: 13px; color: var(--text-dim); margin: 12px 0 4px; }
+              input[type=text], input[type=password] {
+                width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+                background: var(--bg-inset); color: var(--text); font-size: 15px;
+              }
+              input:focus { outline: none; border-color: var(--accent); }
+              button, .btn {
+                display: inline-block; margin-top: 18px; padding: 11px 22px; border: none; border-radius: 8px;
+                background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px;
+                cursor: pointer; text-decoration: none;
+              }
+              button:hover, .btn:hover { background: var(--accent-strong); }
+              .status { margin-top: 14px; font-size: 14px; color: var(--text-dim); }
+              .status.err { color: var(--err); }
+              .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px; font-size: 14px; }
+              .kv dt { color: var(--text-dim); }
+              .kv dd { font-family: var(--mono); word-break: break-all; }
+              code, .tok {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; word-break: break-all;
+              }
+              .note { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+              .note a { color: var(--accent); }
+              .badge {
+                display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 2px 10px; margin-bottom: 14px; text-transform: uppercase;
+              }
+              .receipt { font-size: 40px; margin: 6px 0 2px; color: var(--ok); font-weight: 800; }
+              pre.json {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+                overflow-x: auto; margin-top: 12px; color: var(--text);
+              }
+              footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 24px; }
+              .features-head {
+                margin-top: 44px; margin-bottom: 14px; font-size: 12px; letter-spacing: 1.4px;
+                text-transform: uppercase; color: var(--accent); font-weight: 700;
+              }
+              .features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+              @media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+              .feature {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 18px 18px 16px;
+              }
+              .feature .ico { display: block; margin-bottom: 12px; }
+              .feature .ico svg { width: 22px; height: 22px; stroke: var(--accent); }
+              .feature h3 { font-size: 15px; margin-bottom: 6px; }
+              .feature p { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+              .features-link { display: block; margin-top: 16px; font-size: 13px; color: var(--accent); text-decoration: none; }
+              .features-link:hover { text-decoration: underline; }
+              </style>
+              </head>
+
+              <body data-page="events">
+              <header>
+                <a class="logo" href="/"><span class="bolt">&#9889;</span>Relampo<span class="tag">Tickets</span></a>
+                <nav>
+                  <a href="/events" data-i18n="navBuy">comprar</a><a href="/manage" data-i18n="navManage">mis eventos</a>
+                  <span class="userchip">user001</span>
+                  <a href="/logout" data-i18n="navLogout">salir</a>
+                  <span class="lang"><a href="#" data-setlang="es">ES</a><a href="#" data-setlang="en">EN</a></span>
+                </nav>
+              </header>
+              <main>
+              <h1><span data-i18n="eventsTitle">Elige tu</span> <span class="hl" data-i18n="eventsTitleHl">evento</span></h1>
+                <p class="sub"><span data-i18n="eventsHello">Hola</span> <strong>user001</strong>. <span data-i18n="eventsSub">La app elige un evento y un asiento al azar, reserva, y te deja listo el pago.</span></p>
+                <div id="app" data-config="{&#34;catalogId&#34;:&#34;CAT-4766fc325c52&#34;,&#34;currency&#34;:&#34;UYU&#34;,&#34;locale&#34;:&#34;es-UY&#34;}"></div>
+                <div class="panel">
+                  <h2 data-i18n="selTitle">Tu selecci&oacute;n</h2>
+                  <dl class="kv">
+                    <dt data-i18n="kvEvent">Evento</dt><dd id="evName">&mdash;</dd>
+                    <dt data-i18n="kvVenue">Lugar</dt><dd id="evVenue">&mdash;</dd>
+                    <dt data-i18n="kvDate">Fecha</dt><dd id="evDate">&mdash;</dd>
+                    <dt data-i18n="kvSeat">Asiento</dt><dd id="seatId">&mdash;</dd>
+                    <dt data-i18n="kvPrice">Precio</dt><dd id="seatPrice">&mdash;</dd>
+                  </dl>
+                  <div id="status" class="status">&hellip;</div>
+                </div>
+                <div class="panel" id="payBox" style="display:none">
+                  <h2 data-i18n="payTitle">Pago seguro con RelampoPay</h2>
+                  <form id="payForm" method="POST" action="/pay/start">
+                    <input type="hidden" id="resvId" name="reservation_id" value="">
+                    <input type="hidden" id="relampoToken" name="relampo_token" value="">
+                    <button type="submit" data-i18n="payBtn">Pagar ahora</button>
+                  </form>
+                </div>
+              </main>
+              <footer data-i18n="footer">RelampoTickets &mdash; app de pr&aacute;ctica para correlaci&oacute;n en pruebas de rendimiento</footer>
+              <script src="/static/app.js"></script>
+              </body>
+              </html>
+            time_ms: 40
+          response_preview:
+            status: 200
+            size_bytes: 7316
+            time_ms: 40
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/manage
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-User: '?1'
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 11
+          name: '[11] GET https://practice.relampo.com/api/events?catalogId=CAT-4766fc325c52'
+          method: GET
+          url: https://practice.relampo.com/api/events?catalogId=CAT-4766fc325c52
+          recorded_at: '2026-10-15T00:17:21.435693Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Length: '313'
+              Content-Type: application/json; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:21 GMT
+            body:
+              catalogId: CAT-4766fc325c52
+              count: 2
+              events:
+                - date: '2026-12-31'
+                  id: EV-85d157d7-1d07-4eed-853d-5a3100e981cf
+                  name: Relampo Fest
+                  priceFrom: 1800
+                  venue: Estadio del Rayo
+                - date: '2026-10-24'
+                  id: EV-ee4d2e87-2158-4ac6-9807-dc93507563b7
+                  name: RelampoEvent
+                  priceFrom: 2250
+                  venue: Miamo
+            time_ms: 37
+          response_preview:
+            status: 200
+            size_bytes: 313
+            time_ms: 37
+          headers:
+            Accept: '*/*'
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTIwMzA1OTAsImlhdCI6MTc5MjAyMzM5MCwiaXNzIjoiUmVsYW1wb1RpY2tldHMiLCJzY29wZSI6InRpY2tldHMuYnJvd3NlIHRpY2tldHMuYnV5Iiwic3ViIjoidXNlcjAwMSJ9.MPWY2gwZZb3-DtjVm_3jFT1I7nKsWn7RR_c6bO2iUGk
+            Connection: keep-alive
+            Priority: u=4
+            Referer: https://practice.relampo.com/events
+            Sec-Fetch-Dest: empty
+            Sec-Fetch-Mode: cors
+            Sec-Fetch-Site: same-origin
+      - request:
+          request_id: 12
+          name: '[12] GET https://practice.relampo.com/api/events/EV-85d157d7-1d07-4eed-853d-5a3100e981cf/seats'
+          method: GET
+          url: https://practice.relampo.com/api/events/EV-85d157d7-1d07-4eed-853d-5a3100e981cf/seats
+          recorded_at: '2026-10-15T00:17:21.479157Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Length: '604'
+              Content-Type: application/json; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:21 GMT
+              X-Correlation-Id: fc2512be-d712-4d76-9ec3-6763786249f0
+            body:
+              eventId: EV-85d157d7-1d07-4eed-853d-5a3100e981cf
+              seats:
+                - id: S-A1-c2bdcc
+                  price: 1800
+                  row: A1
+                - id: S-A2-bb1adb
+                  price: 1200
+                  row: A2
+                - id: S-A3-0f26f3
+                  price: 1650
+                  row: A3
+                - id: S-A4-0f7c90
+                  price: 2100
+                  row: A4
+                - id: S-B1-c42895
+                  price: 2250
+                  row: B1
+                - id: S-B2-db763b
+                  price: 2250
+                  row: B2
+                - id: S-B3-5cdaa2
+                  price: 1650
+                  row: B3
+                - id: S-B4-c05d1c
+                  price: 1350
+                  row: B4
+                - id: S-C1-ebe295
+                  price: 1500
+                  row: C1
+                - id: S-C2-10b15c
+                  price: 1500
+                  row: C2
+                - id: S-C3-69d614
+                  price: 1200
+                  row: C3
+                - id: S-C4-bcc96c
+                  price: 2100
+                  row: C4
+            time_ms: 37
+          response_preview:
+            status: 200
+            size_bytes: 604
+            time_ms: 37
+          headers:
+            Accept: '*/*'
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTIwMzA1OTAsImlhdCI6MTc5MjAyMzM5MCwiaXNzIjoiUmVsYW1wb1RpY2tldHMiLCJzY29wZSI6InRpY2tldHMuYnJvd3NlIHRpY2tldHMuYnV5Iiwic3ViIjoidXNlcjAwMSJ9.MPWY2gwZZb3-DtjVm_3jFT1I7nKsWn7RR_c6bO2iUGk
+            Connection: keep-alive
+            Priority: u=4
+            Referer: https://practice.relampo.com/events
+            Sec-Fetch-Dest: empty
+            Sec-Fetch-Mode: cors
+            Sec-Fetch-Site: same-origin
+      - request:
+          request_id: 13
+          name: '[13] POST https://practice.relampo.com/api/reservations'
+          method: POST
+          url: https://practice.relampo.com/api/reservations
+          body:
+            eventId: EV-85d157d7-1d07-4eed-853d-5a3100e981cf
+            seatId: S-B1-c42895
+          recorded_at: '2026-10-15T00:17:21.519088Z'
+          response:
+            status: 201
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Length: '327'
+              Content-Type: application/json; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:21 GMT
+            body:
+              eventId: EV-85d157d7-1d07-4eed-853d-5a3100e981cf
+              note: relampoToken must be sent TRANSFORMED in /pay/start — see signRelampoToken() in /static/app.js
+              relampoToken: bcb28ccc686a1b090433acf3dc76131e6ff591b2d2b9b99b101d29c03c214b32
+              reservationId: RES-fa84c5948290
+              seatId: S-B1-c42895
+              tokenExpiresInSeconds: 60
+            time_ms: 37
+          response_preview:
+            status: 201
+            size_bytes: 327
+            time_ms: 37
+          headers:
+            Accept: '*/*'
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTIwMzA1OTAsImlhdCI6MTc5MjAyMzM5MCwiaXNzIjoiUmVsYW1wb1RpY2tldHMiLCJzY29wZSI6InRpY2tldHMuYnJvd3NlIHRpY2tldHMuYnV5Iiwic3ViIjoidXNlcjAwMSJ9.MPWY2gwZZb3-DtjVm_3jFT1I7nKsWn7RR_c6bO2iUGk
+            Connection: keep-alive
+            Content-Length: '76'
+            Content-Type: application/json
+            Origin: https://practice.relampo.com
+            Priority: u=4
+            Referer: https://practice.relampo.com/events
+            Sec-Fetch-Dest: empty
+            Sec-Fetch-Mode: cors
+            Sec-Fetch-Site: same-origin
+            X-Correlation-Id: fc2512be-d712-4d76-9ec3-6763786249f0
+      - request:
+          request_id: 14
+          name: '[14] POST https://practice.relampo.com/pay/start'
+          method: POST
+          url: https://practice.relampo.com/pay/start
+          body:
+            - reservation_id: RES-fa84c5948290
+            - relampo_token: 10060e5355130c4e464d540d58011d4a5158471e1752145608025a465e1e4110540a0f561442035e101f1408105c55035c405e49424c015c5a001f42550e471f
+          body_raw: reservation_id=RES-fa84c5948290&relampo_token=10060e5355130c4e464d540d58011d4a5158471e1752145608025a465e1e4110540a0f561442035e101f1408105c55035c405e49424c015c5a001f42550e471f
+          chain_id: rc-14
+          chain_role: parent
+          recorded_at: '2026-10-15T00:17:23.363504Z'
+          response:
+            status: 302
+            headers:
+              Connection: keep-alive
+              Content-Length: '0'
+              Date: Thu, 15 Oct 2026 00:17:23 GMT
+              Location: /pay/authorize?state=2m7L09A9Sia5FChZfz1fttsWNZTx1AEv
+            time_ms: 38
+          response_preview:
+            status: 302
+            size_bytes: 0
+            time_ms: 38
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Content-Length: '174'
+            Content-Type: application/x-www-form-urlencoded
+            Origin: https://practice.relampo.com
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/events
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-User: '?1'
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 15
+          name: '[15] GET https://practice.relampo.com/pay/authorize?state=2m7L09A9Sia5FChZfz1fttsWNZTx1AEv'
+          method: GET
+          url: https://practice.relampo.com/pay/authorize?state=2m7L09A9Sia5FChZfz1fttsWNZTx1AEv
+          enabled: false
+          chain_id: rc-14
+          chain_role: final
+          recorded_at: '2026-10-15T00:17:23.408459Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Type: text/html; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:23 GMT
+            body: |-
+              <!DOCTYPE html>
+              <html lang="es">
+              <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+              <title>RelampoTickets</title>
+              <style>
+              :root {
+                --bg: #0b0f1a;
+                --bg-panel: #121829;
+                --bg-inset: #0e1422;
+                --border: #26304d;
+                --text: #e8ecf6;
+                --text-dim: #93a0bd;
+                --accent: #ffd60a;
+                --accent-strong: #ffc300;
+                --accent-ink: #14180a;
+                --ok: #4ade80;
+                --err: #f87171;
+                --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+              }
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body {
+                background: var(--bg);
+                background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 214, 10, 0.08), transparent);
+                color: var(--text);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                min-height: 100vh;
+              }
+              header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 16px 28px; border-bottom: 1px solid var(--border);
+              }
+              .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
+              .logo .bolt { color: var(--accent); margin-right: 6px; }
+              .logo .tag { color: var(--accent); }
+              nav { display: flex; align-items: center; }
+              nav a { color: var(--text-dim); text-decoration: none; margin-left: 18px; font-size: 14px; }
+              nav a:hover { color: var(--accent); }
+              .lang { margin-left: 22px; display: inline-flex; gap: 6px; }
+              .lang a {
+                margin-left: 0; font-size: 12px; font-weight: 700; padding: 3px 9px;
+                border: 1px solid var(--border); border-radius: 6px; color: var(--text-dim);
+              }
+              .lang a.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+              .userchip {
+                margin-left: 18px; font-size: 12px; font-weight: 700; font-family: var(--mono);
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 3px 10px;
+              }
+              .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+              @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+              main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+              h1 { font-size: 30px; letter-spacing: -0.5px; margin-bottom: 8px; }
+              h1 .hl { color: var(--accent); }
+              .sub { color: var(--text-dim); margin-bottom: 28px; font-size: 15px; }
+              .panel {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 24px; margin-bottom: 20px;
+              }
+              .panel h2 { font-size: 17px; margin-bottom: 14px; }
+              label { display: block; font-size: 13px; color: var(--text-dim); margin: 12px 0 4px; }
+              input[type=text], input[type=password] {
+                width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+                background: var(--bg-inset); color: var(--text); font-size: 15px;
+              }
+              input:focus { outline: none; border-color: var(--accent); }
+              button, .btn {
+                display: inline-block; margin-top: 18px; padding: 11px 22px; border: none; border-radius: 8px;
+                background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px;
+                cursor: pointer; text-decoration: none;
+              }
+              button:hover, .btn:hover { background: var(--accent-strong); }
+              .status { margin-top: 14px; font-size: 14px; color: var(--text-dim); }
+              .status.err { color: var(--err); }
+              .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px; font-size: 14px; }
+              .kv dt { color: var(--text-dim); }
+              .kv dd { font-family: var(--mono); word-break: break-all; }
+              code, .tok {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; word-break: break-all;
+              }
+              .note { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+              .note a { color: var(--accent); }
+              .badge {
+                display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 2px 10px; margin-bottom: 14px; text-transform: uppercase;
+              }
+              .receipt { font-size: 40px; margin: 6px 0 2px; color: var(--ok); font-weight: 800; }
+              pre.json {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+                overflow-x: auto; margin-top: 12px; color: var(--text);
+              }
+              footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 24px; }
+              .features-head {
+                margin-top: 44px; margin-bottom: 14px; font-size: 12px; letter-spacing: 1.4px;
+                text-transform: uppercase; color: var(--accent); font-weight: 700;
+              }
+              .features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+              @media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+              .feature {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 18px 18px 16px;
+              }
+              .feature .ico { display: block; margin-bottom: 12px; }
+              .feature .ico svg { width: 22px; height: 22px; stroke: var(--accent); }
+              .feature h3 { font-size: 15px; margin-bottom: 6px; }
+              .feature p { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+              .features-link { display: block; margin-top: 16px; font-size: 13px; color: var(--accent); text-decoration: none; }
+              .features-link:hover { text-decoration: underline; }
+              </style>
+              </head>
+
+              <body data-page="authorize">
+              <main style="max-width:520px">
+                <div class="panel" style="margin-top:60px;text-align:center">
+                  <div class="badge">RelampoPay</div>
+                  <h2>Redirigiendo al procesador de pagos&hellip;</h2>
+                  <p class="note" style="margin-top:10px">Redirecting to the payment processor&hellip;</p>
+                  <form id="payform" method="POST" action="/pay/continue">
+                    <input type="hidden" name="request" value="vTIW1ivNLSdxBD5zUA8mnONPOq634qPwflc7Z5TNugqF/ocI2kY4m3wXTBUJvOYy">
+                    <input type="hidden" name="x_correlation_id" value="1fa10e82-181e-404d-8f7d-cb87dd5e2f1e">
+                    <noscript><button type="submit">Continuar / Continue</button></noscript>
+                  </form>
+                </div>
+              </main>
+              <script>document.getElementById('payform').submit();</script>
+              </body>
+              </html>
+            time_ms: 37
+          response_preview:
+            status: 200
+            size_bytes: 6021
+            time_ms: 37
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/events
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-User: '?1'
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 16
+          name: '[16] POST https://practice.relampo.com/pay/continue'
+          method: POST
+          url: https://practice.relampo.com/pay/continue
+          body:
+            - request: vTIW1ivNLSdxBD5zUA8mnONPOq634qPwflc7Z5TNugqF/ocI2kY4m3wXTBUJvOYy
+            - x_correlation_id: 1fa10e82-181e-404d-8f7d-cb87dd5e2f1e
+          body_raw: request=vTIW1ivNLSdxBD5zUA8mnONPOq634qPwflc7Z5TNugqF%2FocI2kY4m3wXTBUJvOYy&x_correlation_id=1fa10e82-181e-404d-8f7d-cb87dd5e2f1e
+          chain_id: rc-16
+          chain_role: parent
+          recorded_at: '2026-10-15T00:17:23.481814Z'
+          response:
+            status: 302
+            headers:
+              Connection: keep-alive
+              Content-Length: '0'
+              Date: Thu, 15 Oct 2026 00:17:23 GMT
+              Location: /pay/callback?code=71411dd428d216ab6c03f839bc21201fd55b7e1a&state=2m7L09A9Sia5FChZfz1fttsWNZTx1AEv
+            time_ms: 37
+          response_preview:
+            status: 302
+            size_bytes: 0
+            time_ms: 37
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Content-Length: '128'
+            Content-Type: application/x-www-form-urlencoded
+            Origin: https://practice.relampo.com
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/pay/authorize?state=2m7L09A9Sia5FChZfz1fttsWNZTx1AEv
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 17
+          name: '[17] GET https://practice.relampo.com/pay/callback?code=71411dd428d216ab6c03f839bc21201fd55b7e1a&state=2m7L09A9Sia5FChZfz1fttsWNZTx1AEv'
+          method: GET
+          url: https://practice.relampo.com/pay/callback?code=71411dd428d216ab6c03f839bc21201fd55b7e1a&state=2m7L09A9Sia5FChZfz1fttsWNZTx1AEv
+          enabled: false
+          chain_id: rc-16
+          chain_role: final
+          recorded_at: '2026-10-15T00:17:23.521133Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Type: text/html; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:23 GMT
+            body: |-
+              <!DOCTYPE html>
+              <html lang="es">
+              <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+              <title>RelampoTickets</title>
+              <style>
+              :root {
+                --bg: #0b0f1a;
+                --bg-panel: #121829;
+                --bg-inset: #0e1422;
+                --border: #26304d;
+                --text: #e8ecf6;
+                --text-dim: #93a0bd;
+                --accent: #ffd60a;
+                --accent-strong: #ffc300;
+                --accent-ink: #14180a;
+                --ok: #4ade80;
+                --err: #f87171;
+                --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+              }
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body {
+                background: var(--bg);
+                background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 214, 10, 0.08), transparent);
+                color: var(--text);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                min-height: 100vh;
+              }
+              header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 16px 28px; border-bottom: 1px solid var(--border);
+              }
+              .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
+              .logo .bolt { color: var(--accent); margin-right: 6px; }
+              .logo .tag { color: var(--accent); }
+              nav { display: flex; align-items: center; }
+              nav a { color: var(--text-dim); text-decoration: none; margin-left: 18px; font-size: 14px; }
+              nav a:hover { color: var(--accent); }
+              .lang { margin-left: 22px; display: inline-flex; gap: 6px; }
+              .lang a {
+                margin-left: 0; font-size: 12px; font-weight: 700; padding: 3px 9px;
+                border: 1px solid var(--border); border-radius: 6px; color: var(--text-dim);
+              }
+              .lang a.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+              .userchip {
+                margin-left: 18px; font-size: 12px; font-weight: 700; font-family: var(--mono);
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 3px 10px;
+              }
+              .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+              @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+              main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+              h1 { font-size: 30px; letter-spacing: -0.5px; margin-bottom: 8px; }
+              h1 .hl { color: var(--accent); }
+              .sub { color: var(--text-dim); margin-bottom: 28px; font-size: 15px; }
+              .panel {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 24px; margin-bottom: 20px;
+              }
+              .panel h2 { font-size: 17px; margin-bottom: 14px; }
+              label { display: block; font-size: 13px; color: var(--text-dim); margin: 12px 0 4px; }
+              input[type=text], input[type=password] {
+                width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+                background: var(--bg-inset); color: var(--text); font-size: 15px;
+              }
+              input:focus { outline: none; border-color: var(--accent); }
+              button, .btn {
+                display: inline-block; margin-top: 18px; padding: 11px 22px; border: none; border-radius: 8px;
+                background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px;
+                cursor: pointer; text-decoration: none;
+              }
+              button:hover, .btn:hover { background: var(--accent-strong); }
+              .status { margin-top: 14px; font-size: 14px; color: var(--text-dim); }
+              .status.err { color: var(--err); }
+              .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px; font-size: 14px; }
+              .kv dt { color: var(--text-dim); }
+              .kv dd { font-family: var(--mono); word-break: break-all; }
+              code, .tok {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; word-break: break-all;
+              }
+              .note { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+              .note a { color: var(--accent); }
+              .badge {
+                display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 2px 10px; margin-bottom: 14px; text-transform: uppercase;
+              }
+              .receipt { font-size: 40px; margin: 6px 0 2px; color: var(--ok); font-weight: 800; }
+              pre.json {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+                overflow-x: auto; margin-top: 12px; color: var(--text);
+              }
+              footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 24px; }
+              .features-head {
+                margin-top: 44px; margin-bottom: 14px; font-size: 12px; letter-spacing: 1.4px;
+                text-transform: uppercase; color: var(--accent); font-weight: 700;
+              }
+              .features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+              @media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+              .feature {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 18px 18px 16px;
+              }
+              .feature .ico { display: block; margin-bottom: 12px; }
+              .feature .ico svg { width: 22px; height: 22px; stroke: var(--accent); }
+              .feature h3 { font-size: 15px; margin-bottom: 6px; }
+              .feature p { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+              .features-link { display: block; margin-top: 16px; font-size: 13px; color: var(--accent); text-decoration: none; }
+              .features-link:hover { text-decoration: underline; }
+              </style>
+              </head>
+
+              <body data-page="callback">
+              <header>
+                <a class="logo" href="/"><span class="bolt">&#9889;</span>Relampo<span class="tag">Tickets</span></a>
+                <nav>
+                  <a href="/events" data-i18n="navBuy">comprar</a><a href="/manage" data-i18n="navManage">mis eventos</a>
+                  <span class="userchip">user001</span>
+                  <a href="/logout" data-i18n="navLogout">salir</a>
+                  <span class="lang"><a href="#" data-setlang="es">ES</a><a href="#" data-setlang="en">EN</a></span>
+                </nav>
+              </header>
+              <main>
+                <div class="badge" data-i18n="cbBadge">RelampoPay &mdash; confirmaci&oacute;n</div>
+              <h1><span data-i18n="cbTitle">Revisa tu</span> <span class="hl" data-i18n="cbTitleHl">compra</span></h1>
+                <div class="panel">
+                  <h2 data-i18n="summary">Resumen</h2>
+                  <dl class="kv">
+                    <dt data-i18n="kvEvent">Evento</dt><dd>Relampo Fest</dd>
+                    <dt data-i18n="kvSeat">Asiento</dt><dd>S-B1-c42895</dd>
+                    <dt data-i18n="kvPrice">Precio</dt><dd>$ 2250</dd>
+                  </dl>
+                  <form id="confirmForm" method="POST" action="/pay/confirm">
+                    <input type="hidden" name="view_state" value="DNduoHYfPvlrtkE2CFRhL&#43;9rVuh2QAj9jUUyEG9cEMW41t8ZCp&#43;2vVoaESTuf9FdL5sRAzjoP2wkLAQjakAL2xTW7zf4jtGsrVNXHaAGhQONyQPPAh8LSb&#43;lbu0rER3utvduJQocKnjkLdDbZgFQitr1nnIWdk0aVtxPiD&#43;upeCX4LPMC0&#43;MNmQ/DcWLxgnrKKw6J1m6UueUMbGJW0mFHGlyERH0Ee51QobjOpr5HBgCVE4BRu9rhUrOl0dMfueA7z1gWq68xkFOLiXCSKBuWUKRqgo0&#43;Aa74Zwgv96wIF1a&#43;L27MRWbp18XjR9NH2Fs6O3ded7jp/mYCZFhATeDFZXr6HP&#43;wSAd1E8ZGE1&#43;WhZ6UXBHD3gQo9p60iGaLY09V0Rck/UUdekla9MuiOpD7yKUNs&#43;CR&#43;Qe9g5Oo2Y4FbIHVKKzcNLueAJ5LZq076SJ7F71QQSj46najdlP2bhp52bcNbAZYwD/PNl4iHEkHwn6RO7J/Op14y0zE&#43;HVkT/DgGm2yElL6cx2RBHVaSghVhyxFW&#43;hw68vHKgi9zzEOboRG4YhTMtsWnGoJAp9THEDKfrnRv&#43;wg4KsGsezamFaMOaQ5UG24V&#43;gbxUoHQTjMmJPFb4rKpYPsFfq6bOdb9qlRNDs1bonuy4kI2iRM/ygXD59O3IRuTtgFG7ttvCDC9M2gW8yoZf&#43;/zQNTqzkjXPPs0qq1ctEvpRRc&#43;YMhtmNnd8wWsq&#43;KLkvNivMUKI8ga/Fza31&#43;183/256OaFY9/JqJxXs&#43;cQv&#43;AItJvT8qlU/1SjoPyJy7&#43;3UV8zWF&#43;Nj83Wyqy4rLibIps5ts5nexOyMlSSfddN7vZuHcfnbwEmw5zlrAFVom2oxVXX6NBki&#43;fe6RVseVrcpxBK6I/e5IQCwz4O4i1CBVBZ53H5vePtJLiDBYbFZzcjyljGHBRphbce&#43;E9bkV80VcBuYYgNYJyeb2PfcACpIWBd162WbtI11kKBrR&#43;A&#43;4LEJstknjTdABjCcjoZOzR7AxrjOj0xoNbNEXmtlIgFfuqOI&#43;EEJgwp0w8iORUTGN20xkEYP4mEFDnsMeVIGPrc0t8IHEGBruil8A3sCxbtlgtQib0Oz6qyRcaxMy1ysJNnzR2C6JS6gw4/SZrl&#43;XnJ6wsc2Oe6Cqyvg9tiQ36TFZhqnDPPeVa1A/Bc8rsWnUUt8g37rQiIzSdshpxKcc46DFnH9R5S86PjLTY53YbyJwBQdvI6D19MA3hhXhcWDFYnLlXtBNrmJVJtsYj2kmyi2djkVLMH1q5w8DUgO8sxh8uS4rO4azIbleE9c2wIOW/YPee9fCRwC69GollXLBgpNx/QxezcXwq54E5pQs&#43;ueK8SXVJNdtkXr8w==">
+                    <input type="hidden" name="code" value="71411dd428d216ab6c03f839bc21201fd55b7e1a">
+                    <input type="hidden" name="reservation_id" value="RES-fa84c5948290">
+                    <input type="hidden" id="csrfField" name="csrf_token" value="">
+                    <button type="submit" data-i18n="confirmBtn">Confirmar compra</button>
+                  </form>
+                </div>
+              </main>
+              <footer data-i18n="footer">RelampoTickets &mdash; app de pr&aacute;ctica para correlaci&oacute;n en pruebas de rendimiento</footer>
+              <script src="/static/app.js"></script>
+              </body>
+              </html>
+            time_ms: 40
+          response_preview:
+            status: 200
+            size_bytes: 8329
+            time_ms: 40
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/pay/authorize?state=2m7L09A9Sia5FChZfz1fttsWNZTx1AEv
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 18
+          name: '[18] POST https://practice.relampo.com/pay/confirm'
+          method: POST
+          url: https://practice.relampo.com/pay/confirm
+          body:
+            - view_state: DNduoHYfPvlrtkE2CFRhL+9rVuh2QAj9jUUyEG9cEMW41t8ZCp+2vVoaESTuf9FdL5sRAzjoP2wkLAQjakAL2xTW7zf4jtGsrVNXHaAGhQONyQPPAh8LSb+lbu0rER3utvduJQocKnjkLdDbZgFQitr1nnIWdk0aVtxPiD+upeCX4LPMC0+MNmQ/DcWLxgnrKKw6J1m6UueUMbGJW0mFHGlyERH0Ee51QobjOpr5HBgCVE4BRu9rhUrOl0dMfueA7z1gWq68xkFOLiXCSKBuWUKRqgo0+Aa74Zwgv96wIF1a+L27MRWbp18XjR9NH2Fs6O3ded7jp/mYCZFhATeDFZXr6HP+wSAd1E8ZGE1+WhZ6UXBHD3gQo9p60iGaLY09V0Rck/UUdekla9MuiOpD7yKUNs+CR+Qe9g5Oo2Y4FbIHVKKzcNLueAJ5LZq076SJ7F71QQSj46najdlP2bhp52bcNbAZYwD/PNl4iHEkHwn6RO7J/Op14y0zE+HVkT/DgGm2yElL6cx2RBHVaSghVhyxFW+hw68vHKgi9zzEOboRG4YhTMtsWnGoJAp9THEDKfrnRv+wg4KsGsezamFaMOaQ5UG24V+gbxUoHQTjMmJPFb4rKpYPsFfq6bOdb9qlRNDs1bonuy4kI2iRM/ygXD59O3IRuTtgFG7ttvCDC9M2gW8yoZf+/zQNTqzkjXPPs0qq1ctEvpRRc+YMhtmNnd8wWsq+KLkvNivMUKI8ga/Fza31+183/256OaFY9/JqJxXs+cQv+AItJvT8qlU/1SjoPyJy7+3UV8zWF+Nj83Wyqy4rLibIps5ts5nexOyMlSSfddN7vZuHcfnbwEmw5zlrAFVom2oxVXX6NBki+fe6RVseVrcpxBK6I/e5IQCwz4O4i1CBVBZ53H5vePtJLiDBYbFZzcjyljGHBRphbce+E9bkV80VcBuYYgNYJyeb2PfcACpIWBd162WbtI11kKBrR+A+4LEJstknjTdABjCcjoZOzR7AxrjOj0xoNbNEXmtlIgFfuqOI+EEJgwp0w8iORUTGN20xkEYP4mEFDnsMeVIGPrc0t8IHEGBruil8A3sCxbtlgtQib0Oz6qyRcaxMy1ysJNnzR2C6JS6gw4/SZrl+XnJ6wsc2Oe6Cqyvg9tiQ36TFZhqnDPPeVa1A/Bc8rsWnUUt8g37rQiIzSdshpxKcc46DFnH9R5S86PjLTY53YbyJwBQdvI6D19MA3hhXhcWDFYnLlXtBNrmJVJtsYj2kmyi2djkVLMH1q5w8DUgO8sxh8uS4rO4azIbleE9c2wIOW/YPee9fCRwC69GollXLBgpNx/QxezcXwq54E5pQs+ueK8SXVJNdtkXr8w==
+            - code: 71411dd428d216ab6c03f839bc21201fd55b7e1a
+            - reservation_id: RES-fa84c5948290
+            - csrf_token: '{{csrf_token}}'
+          recorded_at: '2026-10-15T00:17:25.223965Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Type: text/html; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:25 GMT
+            body: |-
+              <!DOCTYPE html>
+              <html lang="es">
+              <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+              <title>RelampoTickets</title>
+              <style>
+              :root {
+                --bg: #0b0f1a;
+                --bg-panel: #121829;
+                --bg-inset: #0e1422;
+                --border: #26304d;
+                --text: #e8ecf6;
+                --text-dim: #93a0bd;
+                --accent: #ffd60a;
+                --accent-strong: #ffc300;
+                --accent-ink: #14180a;
+                --ok: #4ade80;
+                --err: #f87171;
+                --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+              }
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body {
+                background: var(--bg);
+                background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 214, 10, 0.08), transparent);
+                color: var(--text);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                min-height: 100vh;
+              }
+              header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 16px 28px; border-bottom: 1px solid var(--border);
+              }
+              .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
+              .logo .bolt { color: var(--accent); margin-right: 6px; }
+              .logo .tag { color: var(--accent); }
+              nav { display: flex; align-items: center; }
+              nav a { color: var(--text-dim); text-decoration: none; margin-left: 18px; font-size: 14px; }
+              nav a:hover { color: var(--accent); }
+              .lang { margin-left: 22px; display: inline-flex; gap: 6px; }
+              .lang a {
+                margin-left: 0; font-size: 12px; font-weight: 700; padding: 3px 9px;
+                border: 1px solid var(--border); border-radius: 6px; color: var(--text-dim);
+              }
+              .lang a.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+              .userchip {
+                margin-left: 18px; font-size: 12px; font-weight: 700; font-family: var(--mono);
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 3px 10px;
+              }
+              .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+              @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+              main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+              h1 { font-size: 30px; letter-spacing: -0.5px; margin-bottom: 8px; }
+              h1 .hl { color: var(--accent); }
+              .sub { color: var(--text-dim); margin-bottom: 28px; font-size: 15px; }
+              .panel {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 24px; margin-bottom: 20px;
+              }
+              .panel h2 { font-size: 17px; margin-bottom: 14px; }
+              label { display: block; font-size: 13px; color: var(--text-dim); margin: 12px 0 4px; }
+              input[type=text], input[type=password] {
+                width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+                background: var(--bg-inset); color: var(--text); font-size: 15px;
+              }
+              input:focus { outline: none; border-color: var(--accent); }
+              button, .btn {
+                display: inline-block; margin-top: 18px; padding: 11px 22px; border: none; border-radius: 8px;
+                background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px;
+                cursor: pointer; text-decoration: none;
+              }
+              button:hover, .btn:hover { background: var(--accent-strong); }
+              .status { margin-top: 14px; font-size: 14px; color: var(--text-dim); }
+              .status.err { color: var(--err); }
+              .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px; font-size: 14px; }
+              .kv dt { color: var(--text-dim); }
+              .kv dd { font-family: var(--mono); word-break: break-all; }
+              code, .tok {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; word-break: break-all;
+              }
+              .note { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+              .note a { color: var(--accent); }
+              .badge {
+                display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 2px 10px; margin-bottom: 14px; text-transform: uppercase;
+              }
+              .receipt { font-size: 40px; margin: 6px 0 2px; color: var(--ok); font-weight: 800; }
+              pre.json {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+                overflow-x: auto; margin-top: 12px; color: var(--text);
+              }
+              footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 24px; }
+              .features-head {
+                margin-top: 44px; margin-bottom: 14px; font-size: 12px; letter-spacing: 1.4px;
+                text-transform: uppercase; color: var(--accent); font-weight: 700;
+              }
+              .features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+              @media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+              .feature {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 18px 18px 16px;
+              }
+              .feature .ico { display: block; margin-bottom: 12px; }
+              .feature .ico svg { width: 22px; height: 22px; stroke: var(--accent); }
+              .feature h3 { font-size: 15px; margin-bottom: 6px; }
+              .feature p { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+              .features-link { display: block; margin-top: 16px; font-size: 13px; color: var(--accent); text-decoration: none; }
+              .features-link:hover { text-decoration: underline; }
+              </style>
+              </head>
+
+              <body data-page="success" data-ticket="TCK-23905edc20a1aee0">
+              <header>
+                <a class="logo" href="/"><span class="bolt">&#9889;</span>Relampo<span class="tag">Tickets</span></a>
+                <nav>
+                  <a href="/events" data-i18n="navBuy">comprar</a><a href="/manage" data-i18n="navManage">mis eventos</a>
+                  <span class="userchip">user001</span>
+                  <a href="/logout" data-i18n="navLogout">salir</a>
+                  <span class="lang"><a href="#" data-setlang="es">ES</a><a href="#" data-setlang="en">EN</a></span>
+                </nav>
+              </header>
+              <main>
+                <div class="badge" data-i18n="successBadge">compra confirmada</div>
+                <div class="panel" style="text-align:center">
+                  <div class="receipt">&#9889; <span data-i18n="successBig">Compra confirmada</span></div>
+                  <p class="sub"><span data-i18n="successSub">Tu entrada qued&oacute; emitida,</span> user001.</p>
+                  <dl class="kv" style="text-align:left">
+                    <dt data-i18n="kvEvent">Evento</dt><dd>Relampo Fest</dd>
+                    <dt data-i18n="kvSeat">Asiento</dt><dd>S-B1-c42895</dd>
+                  </dl>
+                  <p id="ticketInfo" class="status">&hellip;</p>
+                  <a class="btn" href="/events" data-i18n="buyAnother">Comprar otra entrada</a>
+                </div>
+              </main>
+              <footer data-i18n="footer">RelampoTickets &mdash; app de pr&aacute;ctica para correlaci&oacute;n en pruebas de rendimiento</footer>
+              <script src="/static/app.js"></script>
+              </body>
+              </html>
+            time_ms: 38
+          response_preview:
+            status: 200
+            size_bytes: 6591
+            time_ms: 38
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Content-Length: '1607'
+            Content-Type: application/x-www-form-urlencoded
+            Origin: https://practice.relampo.com
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/pay/callback?code=71411dd428d216ab6c03f839bc21201fd55b7e1a&state=2m7L09A9Sia5FChZfz1fttsWNZTx1AEv
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-User: '?1'
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 19
+          name: '[19] GET https://practice.relampo.com/api/tickets/TCK-23905edc20a1aee0'
+          method: GET
+          url: https://practice.relampo.com/api/tickets/TCK-23905edc20a1aee0
+          recorded_at: '2026-10-15T00:17:25.332966Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Length: '184'
+              Content-Type: application/json; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:25 GMT
+            body:
+              event: Relampo Fest
+              issuedAt: '2026-10-15T00:17:25Z'
+              receiptNumber: R-2026-000001
+              seat: S-B1-c42895
+              status: CONFIRMED
+              ticketId: TCK-23905edc20a1aee0
+              user: user001
+            time_ms: 41
+          response_preview:
+            status: 200
+            size_bytes: 184
+            time_ms: 41
+          headers:
+            Accept: '*/*'
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTIwMzA1OTAsImlhdCI6MTc5MjAyMzM5MCwiaXNzIjoiUmVsYW1wb1RpY2tldHMiLCJzY29wZSI6InRpY2tldHMuYnJvd3NlIHRpY2tldHMuYnV5Iiwic3ViIjoidXNlcjAwMSJ9.MPWY2gwZZb3-DtjVm_3jFT1I7nKsWn7RR_c6bO2iUGk
+            Connection: keep-alive
+            Priority: u=4
+            Referer: https://practice.relampo.com/pay/confirm
+            Sec-Fetch-Dest: empty
+            Sec-Fetch-Mode: cors
+            Sec-Fetch-Site: same-origin
+      - request:
+          request_id: 20
+          name: '[20] GET https://practice.relampo.com/logout'
+          method: GET
+          url: https://practice.relampo.com/logout
+          chain_id: rc-20
+          chain_role: parent
+          recorded_at: '2026-10-15T00:17:31.76353Z'
+          response:
+            status: 302
+            headers:
+              Connection: keep-alive
+              Content-Length: '24'
+              Content-Type: text/html; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:31 GMT
+              Location: /
+            body: |+
+              <a href="/">Found</a>.
+
+            time_ms: 40
+          response_preview:
+            status: 302
+            size_bytes: 24
+            time_ms: 40
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/pay/confirm
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-User: '?1'
+            Upgrade-Insecure-Requests: '1'
+      - request:
+          request_id: 21
+          name: '[21] GET https://practice.relampo.com/'
+          method: GET
+          url: https://practice.relampo.com/
+          enabled: false
+          chain_id: rc-20
+          chain_role: final
+          recorded_at: '2026-10-15T00:17:31.806123Z'
+          response:
+            status: 200
+            headers:
+              Cache-Control: no-store
+              Connection: keep-alive
+              Content-Type: text/html; charset=utf-8
+              Date: Thu, 15 Oct 2026 00:17:32 GMT
+              Set-Cookie: relampo_session=2d9c5448eabc6cf3e8100da3b8fd64a9d93da1900cf7f63ae3ac2af70202dc64; Path=/; HttpOnly; SameSite=Lax
+            body: |-
+              <!DOCTYPE html>
+              <html lang="es">
+              <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+              <title>RelampoTickets</title>
+              <style>
+              :root {
+                --bg: #0b0f1a;
+                --bg-panel: #121829;
+                --bg-inset: #0e1422;
+                --border: #26304d;
+                --text: #e8ecf6;
+                --text-dim: #93a0bd;
+                --accent: #ffd60a;
+                --accent-strong: #ffc300;
+                --accent-ink: #14180a;
+                --ok: #4ade80;
+                --err: #f87171;
+                --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+              }
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body {
+                background: var(--bg);
+                background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 214, 10, 0.08), transparent);
+                color: var(--text);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                min-height: 100vh;
+              }
+              header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 16px 28px; border-bottom: 1px solid var(--border);
+              }
+              .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
+              .logo .bolt { color: var(--accent); margin-right: 6px; }
+              .logo .tag { color: var(--accent); }
+              nav { display: flex; align-items: center; }
+              nav a { color: var(--text-dim); text-decoration: none; margin-left: 18px; font-size: 14px; }
+              nav a:hover { color: var(--accent); }
+              .lang { margin-left: 22px; display: inline-flex; gap: 6px; }
+              .lang a {
+                margin-left: 0; font-size: 12px; font-weight: 700; padding: 3px 9px;
+                border: 1px solid var(--border); border-radius: 6px; color: var(--text-dim);
+              }
+              .lang a.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+              .userchip {
+                margin-left: 18px; font-size: 12px; font-weight: 700; font-family: var(--mono);
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 3px 10px;
+              }
+              .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+              @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+              main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+              h1 { font-size: 30px; letter-spacing: -0.5px; margin-bottom: 8px; }
+              h1 .hl { color: var(--accent); }
+              .sub { color: var(--text-dim); margin-bottom: 28px; font-size: 15px; }
+              .panel {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 24px; margin-bottom: 20px;
+              }
+              .panel h2 { font-size: 17px; margin-bottom: 14px; }
+              label { display: block; font-size: 13px; color: var(--text-dim); margin: 12px 0 4px; }
+              input[type=text], input[type=password] {
+                width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+                background: var(--bg-inset); color: var(--text); font-size: 15px;
+              }
+              input:focus { outline: none; border-color: var(--accent); }
+              button, .btn {
+                display: inline-block; margin-top: 18px; padding: 11px 22px; border: none; border-radius: 8px;
+                background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 15px;
+                cursor: pointer; text-decoration: none;
+              }
+              button:hover, .btn:hover { background: var(--accent-strong); }
+              .status { margin-top: 14px; font-size: 14px; color: var(--text-dim); }
+              .status.err { color: var(--err); }
+              .kv { display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px; font-size: 14px; }
+              .kv dt { color: var(--text-dim); }
+              .kv dd { font-family: var(--mono); word-break: break-all; }
+              code, .tok {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; word-break: break-all;
+              }
+              .note { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+              .note a { color: var(--accent); }
+              .badge {
+                display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
+                color: var(--accent); border: 1px solid var(--accent); border-radius: 999px;
+                padding: 2px 10px; margin-bottom: 14px; text-transform: uppercase;
+              }
+              .receipt { font-size: 40px; margin: 6px 0 2px; color: var(--ok); font-weight: 800; }
+              pre.json {
+                font-family: var(--mono); font-size: 12.5px; background: var(--bg-inset);
+                border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+                overflow-x: auto; margin-top: 12px; color: var(--text);
+              }
+              footer { text-align: center; color: var(--text-dim); font-size: 12px; padding: 24px; }
+              .features-head {
+                margin-top: 44px; margin-bottom: 14px; font-size: 12px; letter-spacing: 1.4px;
+                text-transform: uppercase; color: var(--accent); font-weight: 700;
+              }
+              .features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+              @media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+              .feature {
+                background: var(--bg-panel); border: 1px solid var(--border);
+                border-radius: 12px; padding: 18px 18px 16px;
+              }
+              .feature .ico { display: block; margin-bottom: 12px; }
+              .feature .ico svg { width: 22px; height: 22px; stroke: var(--accent); }
+              .feature h3 { font-size: 15px; margin-bottom: 6px; }
+              .feature p { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+              .features-link { display: block; margin-top: 16px; font-size: 13px; color: var(--accent); text-decoration: none; }
+              .features-link:hover { text-decoration: underline; }
+              </style>
+              </head>
+
+              <body data-page="home">
+              <header>
+                <a class="logo" href="/"><span class="bolt">&#9889;</span>Relampo<span class="tag">Tickets</span></a>
+                <nav>
+                  
+                  <span class="lang"><a href="#" data-setlang="es">ES</a><a href="#" data-setlang="en">EN</a></span>
+                </nav>
+              </header>
+              <main>
+                <h1><span data-i18n="homeTitle">Entradas para tus eventos,</span> <span class="hl" data-i18n="homeTitleHl">a la velocidad del rayo</span></h1>
+              <p class="sub" data-i18n="homeSub">Inicia sesi&oacute;n para comprar entradas.</p>
+                <div class="panel">
+                  <h2 data-i18n="loginTitle">Iniciar sesi&oacute;n</h2>
+                  <form id="loginForm">
+                    <input type="hidden" name="csrf_token" value="7f9547596de7c1dfbf0ecf007e576320a5d7e559">
+                    <label for="username" data-i18n="userLabel">Usuario</label>
+                    <input type="text" id="username" name="username" autocomplete="off" placeholder="usuario" data-i18n-ph="userPh">
+                    <label for="password" data-i18n="passLabel">Contrase&ntilde;a</label>
+                    <input type="password" id="password" name="password" placeholder="contrase&ntilde;a" data-i18n-ph="passPh">
+                    <button type="submit" data-i18n="loginBtn">Entrar</button>
+                    <div id="status" class="status"></div>
+                  </form>
+                </div>
+
+                <div class="features-head" data-i18n="featHead">&iquest;Por qu&eacute; Relampo?</div>
+                <div class="features">
+                  <div class="feature">
+                    <span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                    <h3 data-i18n="feat1t">Correlaci&oacute;n autom&aacute;tica completa</h3>
+              <p data-i18n="feat1d">Relampo detecta y correlaciona los valores din&aacute;micos por ti al grabar: menos scripting manual, pruebas listas antes.</p>
+                  </div>
+                  <div class="feature">
+                    <span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+                    <h3 data-i18n="feat2t">500 usuarios virtuales, 4 nodos</h3>
+              <p data-i18n="feat2d">Genera hasta 500 usuarios virtuales distribuidos en 4 nodos de carga con la integraci&oacute;n nativa de Relampo con GitHub.</p>
+                  </div>
+                  <div class="feature">
+                    <span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m10 12-2 2 2 2"/><path d="m14 16 2-2-2-2"/></svg></span>
+                    <h3 data-i18n="feat3t">Scripts YAML declarativos</h3>
+              <p data-i18n="feat3d">F&aacute;ciles de leer, intuitivos y versionables en Git: revisas tus pruebas de rendimiento como revisas c&oacute;digo.</p>
+                  </div>
+                  <div class="feature">
+                    <span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg></span>
+                    <h3 data-i18n="feat4t">Motor de carga en Go</h3>
+                    <p data-i18n="feat4d">Generaci&oacute;n de carga de alto rendimiento con la eficiencia y la concurrencia nativa de Go.</p>
+                  </div>
+                </div>
+              <a class="features-link" href="https://relampo.com" target="_blank" rel="noopener" data-i18n="featLink">Conoce m&aacute;s en relampo.com &rarr;</a>
+              </main>
+              <footer data-i18n="footer">RelampoTickets &mdash; app de pr&aacute;ctica para correlaci&oacute;n en pruebas de rendimiento</footer>
+              <script src="/static/app.js"></script>
+              </body>
+              </html>
+            time_ms: 43
+          response_preview:
+            status: 200
+            size_bytes: 9089
+            time_ms: 43
+          headers:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            Connection: keep-alive
+            Priority: u=0, i
+            Referer: https://practice.relampo.com/pay/confirm
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-User: '?1'
+            Upgrade-Insecure-Requests: '1'
