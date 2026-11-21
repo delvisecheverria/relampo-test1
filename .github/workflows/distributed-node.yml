@@ -118,7 +118,7 @@ jobs:
                   [ -n "$expected" ] && [ "$actual" = "$expected" ] || { echo "Error: release archive checksum mismatch." >&2; return 1; }
                 }
                 mkdir -p "$HOME/.local/bin"
-                SCENARIO_PATH='scenarios/relampopractice.correlated.yaml'
+                SCENARIO_PATH='scenarios/relampopractice.correlated1.correlated.yaml'
                 WORKER_OVERRIDE="$(dirname "$SCENARIO_PATH")/relampo-worker"
                 if [ -f "$WORKER_OVERRIDE" ]; then
                   (cd "$(dirname "$WORKER_OVERRIDE")" && sha256sum -c relampo-worker.sha256)
@@ -139,7 +139,7 @@ jobs:
                 PULSE_PPROF: ${{ vars.PULSE_PPROF || '0' }}
                 PULSE_GOROUTINES: ${{ vars.PULSE_GOROUTINES || '0' }}
                 TZ: 'America/New_York'
-                RELAMPO_RUN_AUTHORIZATION: 'eyJhbGciOiJQUzI1NiIsImtpZCI6InJlbGFtcG8tZGV2LWxpY2Vuc2luZy0yMDI2LTExIiwidHlwIjoiSldUIn0.eyJ0eXAiOiJyZWxhbXBvX3J1bl9hdXRob3JpemF0aW9uIiwicnVuX2lkIjoicnVuX2FlMWQ3MmIyYzhhZGEyNzgiLCJvcmdfaWQiOiJvcmdfZmUyOWJkOTUyZGMxMTM1MiIsImFjdGl2YXRpb25faWQiOiJhY3RfODUyMTEyYWI4NDc4MDljZiIsInNjZW5hcmlvX3NoYTI1NiI6ImI3YjNiYmM2MmI0YWNhMTZhNzQzYjhiY2MxYWJlODI1NTUwZDJkYmUwZTk1M2IyOWU3MWFiYmI2Yjc5Mjc0NjUiLCJncmFudGVkX3Z1cyI6MSwiZ3JhbnRlZF9kdXJhdGlvbl9zZWNvbmRzIjo2MCwiZ3JhbnRlZF9ub2RlcyI6MiwiZXhwIjoxNzk1MjY5NzUwLCJraWQiOiJyZWxhbXBvLWRldi1saWNlbnNpbmctMjAyNi0xMSJ9.LBnSCsDWbi7h6GXCk-SlWGQY7bKh7zZ39uB_TXkxLW0_YPaH06xNIkFkCk18e2zk8x-ZrrjjEzV-zvmppVxGAmWy7fVHfuPNh3RuxE_9qRk2ffWUgWAEJ5S2A9Zfp5u5vfQMwDIKzZ1SMWk_qESnWyvB0CWQ-FVny6cJ1SiqSbG8oPBTR0Lg_Pxsp9rSKp7-wc_JGjXfm71nAwrNWzVQu66c6GnKIRkQxzdUg-ezFzHgua62PPIFT1FqVIBpqHo_jRf6Jryd04gmmR2c-XAkDoEGo8_SOh_SJ0vHmUf62whKSzIqkfLPpsdtWdKLq6Ok_WUaFOWZEtQDz0l7BSBU5A'
+                RELAMPO_RUN_AUTHORIZATION: 'eyJhbGciOiJQUzI1NiIsImtpZCI6InJlbGFtcG8tZGV2LWxpY2Vuc2luZy0yMDI2LTExIiwidHlwIjoiSldUIn0.eyJ0eXAiOiJyZWxhbXBvX3J1bl9hdXRob3JpemF0aW9uIiwicnVuX2lkIjoicnVuX2NkMmM2NjM1YWMwZWQ4MmQiLCJvcmdfaWQiOiJvcmdfZmUyOWJkOTUyZGMxMTM1MiIsImFjdGl2YXRpb25faWQiOiJhY3RfODUyMTEyYWI4NDc4MDljZiIsInNjZW5hcmlvX3NoYTI1NiI6IjFhMzE4YThlNWI2MmQxOTdkZDE1ZmY4ZDE0OWYzOWI2ZDNmZDNhMmZhYzMzZDEwNDYyMmI0MDQwZGVmODFkZGIiLCJncmFudGVkX3Z1cyI6MSwiZ3JhbnRlZF9kdXJhdGlvbl9zZWNvbmRzIjo2MCwiZ3JhbnRlZF9ub2RlcyI6MiwiZXhwIjoxNzk1Mjc0MDA5LCJraWQiOiJyZWxhbXBvLWRldi1saWNlbnNpbmctMjAyNi0xMSJ9.aB3cWngSZy4RGAFJ3mmJD4-zXqUA2_GnyrC2l3GcLG2DND0HjS7WieBBBeRjpHAPHSEcmmkpEZWmH8oWOuzJIuB5H_IbiDBBa3OzpGKTV4uHLm2qeFMq8HbyEd1Thk5XW3aDSFYehNtl56yWt1tmsWg1SnaOzjCwNZh4DnbBxEkxhQZHf7dlIN5DbGcazYmGnmG5TdtoBCeOwOJjSleFDkD8eSYbRmIf11siw_dr0X-fCDU0ywapO0kmxvl4KqFdArpM5qLorlozS2MRq-baJu2mRuyyyn8e5FinDHNHeslIpMLqvMzJPkOmFwl5-0aJBfy8Z514p_GHlT39XW3ciQ'
                 RELAMPO_WORKER_LOG_MODE: table
                 RELAMPO_WORKER_SNAPSHOT_SECONDS: '0'
                 RELAMPO_WORKER_PROGRESS_SECONDS: '1'
@@ -291,7 +291,7 @@ jobs:
                 STUDIO_LIVE_PID=$!
                 trap 'touch "$RUNNER_TEMP/relampo-studio-stop-$RELAMPO_STUDIO_JOB"; wait "$STUDIO_LIVE_PID" || true; cat "$RUNNER_TEMP/relampo-studio-live.log"' EXIT
                 echo "Starting node $RELAMPO_NODE of 2"
-                SCENARIO_PATH='scenarios/relampopractice.correlated.yaml'
+                SCENARIO_PATH='scenarios/relampopractice.correlated1.correlated.yaml'
                 SCENARIO_DIR="$(dirname "$SCENARIO_PATH")"
                 SCENARIO_FILE="$(basename "$SCENARIO_PATH")"
                 VUS_ARGS=()
